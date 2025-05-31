@@ -3,13 +3,13 @@ import { ENV } from "./constants";
 import { errorHandler } from "./middlewares";
 import { Context, Telegraf } from "telegraf";
 
-const { botToken } = ENV;
+const { telegramBotToken } = ENV;
 
 class App {
   private bot: Telegraf<Context>;
 
   public constructor() {
-    this.bot = new Telegraf(botToken);
+    this.bot = new Telegraf(telegramBotToken);
 
     this.init();
   }
