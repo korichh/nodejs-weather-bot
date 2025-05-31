@@ -4,7 +4,7 @@ import { User } from "telegraf/typings/core/types/typegram";
 export class UserService {
   constructor(private userModel: UserModel) {}
 
-  subscribe = (user: User) => {
+  subscribe = (user: User): boolean => {
     const dbUser = this.userModel.get(user.id);
 
     if (!dbUser) {

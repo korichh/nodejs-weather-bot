@@ -1,5 +1,5 @@
 import { dbConfig, DBConfig } from "../configs";
-import { readDB, writeDB } from "../utils";
+import { logger, readDB, writeDB } from "../utils";
 import { User } from "telegraf/typings/core/types/typegram";
 
 export class UserModel {
@@ -16,7 +16,9 @@ export class UserModel {
         writeDB(this.dbConfig.dbName, data);
       }
     } catch (err) {
-      console.error(err);
+      if (err instanceof Error) {
+        logger.error(err.message);
+      }
     }
   }
 
@@ -29,7 +31,9 @@ export class UserModel {
 
       return data.users;
     } catch (err) {
-      console.error(err);
+      if (err instanceof Error) {
+        logger.error(err.message);
+      }
     }
   };
 
@@ -42,7 +46,9 @@ export class UserModel {
 
       return data.users.find((user) => user.id === userId);
     } catch (err) {
-      console.error(err);
+      if (err instanceof Error) {
+        logger.error(err.message);
+      }
     }
   };
 
@@ -59,7 +65,9 @@ export class UserModel {
 
       return user;
     } catch (err) {
-      console.error(err);
+      if (err instanceof Error) {
+        logger.error(err.message);
+      }
     }
   };
 
@@ -76,7 +84,9 @@ export class UserModel {
 
       return userId;
     } catch (err) {
-      console.error(err);
+      if (err instanceof Error) {
+        logger.error(err.message);
+      }
     }
   };
 }
