@@ -8,7 +8,7 @@ const { botToken } = ENV;
 class App {
   private bot: Telegraf<Context>;
 
-  constructor() {
+  public constructor() {
     this.bot = new Telegraf(botToken);
 
     this.init();

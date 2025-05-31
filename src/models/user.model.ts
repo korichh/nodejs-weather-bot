@@ -1,93 +1,86 @@
 import { dbConfig, DBConfig } from "../configs";
-import { logger, readDB, writeDB } from "../utils";
-import { User } from "telegraf/typings/core/types/typegram";
+import { ERROR } from "../constants";
+import { DBData, User } from "../types";
+import { readFile, writeFile } from "../utils";
+import { v4 as uuidv4 } from "uuid";
+
+const { entityNotFound } = ERROR;
 
 export class UserModel {
-  constructor(private dbConfig: DBConfig) {
-    try {
-      const data = readDB(this.dbConfig.dbName);
-      if (!data) {
-        throw new Error("Invalid db");
-      }
+  public constructor(private dbConfig: DBConfig) {
+    const data = readFile<DBData>(this.dbConfig.dbName);
 
-      if (!data.users) {
-        data["users"] = [];
+    if (!data.users) {
+      data["users"] = [];
 
-        writeDB(this.dbConfig.dbName, data);
-      }
-    } catch (err) {
-      if (err instanceof Error) {
-        logger.error(err.message);
-      }
+      writeFile(this.dbConfig.dbName, data);
     }
   }
 
-  getAll = () => {
-    try {
-      const data = readDB(this.dbConfig.dbName);
-      if (!data) {
-        throw new Error("Invalid db");
-      }
+  public getAll = (): User[] => {
+    const data = readFile<DBData>(this.dbConfig.dbName);
 
-      return data.users;
-    } catch (err) {
-      if (err instanceof Error) {
-        logger.error(err.message);
-      }
-    }
+    return data.users;
   };
 
-  get = (userId: number) => {
-    try {
-      const data = readDB(this.dbConfig.dbName);
-      if (!data) {
-        throw new Error("Invalid db");
-      }
+  public get = (userId: string): User | null => {
+    const data = readFile<DBData>(this.dbConfig.dbName);
 
-      return data.users.find((user) => user.id === userId);
-    } catch (err) {
-      if (err instanceof Error) {
-        logger.error(err.message);
-      }
-    }
+    const user = data.users.find(
+      (user) => user.id === userId || user.telegramId === userId
+    );
+
+    return user || null;
   };
 
-  create = (user: User) => {
-    try {
-      const data = readDB(this.dbConfig.dbName);
-      if (!data) {
-        throw new Error("Invalid db");
-      }
+  public create = (userData: Omit<User, "id">): User => {
+    const data = readFile<DBData>(this.dbConfig.dbName);
 
-      data.users = [...data.users, user];
+    const user = {
+      id: uuidv4(),
+      ...userData,
+    };
 
-      writeDB(this.dbConfig.dbName, data);
+    data.users = [...data.users, user];
 
-      return user;
-    } catch (err) {
-      if (err instanceof Error) {
-        logger.error(err.message);
-      }
-    }
+    writeFile(this.dbConfig.dbName, data);
+
+    return user;
   };
 
-  delete = (userId: number) => {
-    try {
-      const data = readDB(this.dbConfig.dbName);
-      if (!data) {
-        throw new Error("Invalid db");
-      }
+  public update = (
+    userId: string,
+    userData: Partial<Omit<User, "id">>
+  ): User => {
+    const data = readFile<DBData>(this.dbConfig.dbName);
 
-      data.users = data.users.filter((user) => user.id !== userId);
-
-      writeDB(this.dbConfig.dbName, data);
-
-      return userId;
-    } catch (err) {
-      if (err instanceof Error) {
-        logger.error(err.message);
-      }
+    const userIndex = data.users.findIndex(
+      (user) => user.id === userId || user.telegramId === userId
+    );
+    if (userIndex === -1) {
+      throw new Error(entityNotFound("User"));
     }
+
+    const user: User = {
+      ...data.users[userIndex],
+      ...userData,
+    };
+
+    data.users[userIndex] = user;
+
+    writeFile(this.dbConfig.dbName, data);
+
+    return user;
+  };
+
+  public delete = (userId: string): void => {
+    const data = readFile<DBData>(this.dbConfig.dbName);
+
+    data.users = data.users.filter(
+      (user) => user.id !== userId && user.telegramId !== userId
+    );
+
+    writeFile(this.dbConfig.dbName, data);
   };
 }
 

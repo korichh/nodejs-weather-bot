@@ -17,7 +17,7 @@ import { logger } from "./utils";
     });
   } catch (err) {
     if (err instanceof Error) {
-      logger.error(`${err.message}`);
+      logger.error(`[Error] ${err.message}`);
     }
   }
 })();

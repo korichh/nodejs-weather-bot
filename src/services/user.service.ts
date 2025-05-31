@@ -1,19 +1,25 @@
 import { userModel, UserModel } from "../models";
-import { User } from "telegraf/typings/core/types/typegram";
+import { TelegramUser, User } from "../types";
 
 export class UserService {
-  constructor(private userModel: UserModel) {}
+  public constructor(private userModel: UserModel) {}
 
-  subscribe = (user: User): boolean => {
-    const dbUser = this.userModel.get(user.id);
+  public save = (telegramUser: TelegramUser): User => {
+    let user = this.userModel.get(String(telegramUser.id));
 
-    if (!dbUser) {
-      this.userModel.create(user);
-
-      return true;
+    if (!user) {
+      user = this.userModel.create({
+        telegramId: String(telegramUser.id),
+        isBot: telegramUser.is_bot,
+        firstName: telegramUser.first_name,
+        username: telegramUser.username || "",
+        languageCode: telegramUser.language_code || "",
+        location: "",
+        notificationTime: "",
+      });
     }
 
-    return false;
+    return user;
   };
 }
 
