@@ -4,7 +4,7 @@ import { DBData, User } from "../types";
 import { readFile, writeFile } from "../utils";
 import { v4 as uuidv4 } from "uuid";
 
-const { entityNotFound } = ERROR;
+const { NOT_FOUND } = ERROR;
 
 export class UserModel {
   public constructor(private dbConfig: DBConfig) {
@@ -58,7 +58,7 @@ export class UserModel {
       (user) => user.id === userId || user.telegramId === userId
     );
     if (userIndex === -1) {
-      throw new Error(entityNotFound("User"));
+      throw new Error(NOT_FOUND("User"));
     }
 
     const user: User = {
