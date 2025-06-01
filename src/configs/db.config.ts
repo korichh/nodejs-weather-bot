@@ -2,10 +2,10 @@ import * as fs from "fs";
 import * as path from "path";
 
 export class DBConfig {
-  dbDir: string;
-  dbName: string;
+  public dbDir: string;
+  public dbName: string;
 
-  constructor() {
+  public constructor() {
     this.dbDir = "database";
     this.dbName = path.join(".", this.dbDir, "db.json");
 
@@ -13,13 +13,13 @@ export class DBConfig {
 
     try {
       if (!fs.existsSync(this.dbName)) {
-        throw new Error("File does not exist");
+        throw new Error();
       }
 
       const content = fs.readFileSync(this.dbName, "utf-8").trim();
 
       if (!content) {
-        throw new Error("File is empty");
+        throw new Error();
       }
 
       JSON.parse(content);
