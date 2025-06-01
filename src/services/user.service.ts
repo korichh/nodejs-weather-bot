@@ -1,24 +1,31 @@
 import { userModel, UserModel } from "../models";
-import { TelegramUser, User } from "../types";
+import { TelegrafUser } from "../types";
+import { User } from "../types";
 
 export class UserService {
   public constructor(private userModel: UserModel) {}
 
-  public save = (telegramUser: TelegramUser): User => {
-    let user = this.userModel.get(String(telegramUser.id));
+  public save = (telegrafUser: TelegrafUser): User => {
+    let user = this.userModel.get(String(telegrafUser.id));
 
     if (!user) {
       user = this.userModel.create({
-        telegramId: String(telegramUser.id),
-        isBot: telegramUser.is_bot,
-        firstName: telegramUser.first_name,
-        username: telegramUser.username || "",
-        languageCode: telegramUser.language_code || "",
+        telegramId: String(telegrafUser.id),
+        isBot: telegrafUser.is_bot,
+        firstName: telegrafUser.first_name,
+        username: telegrafUser.username || "",
+        languageCode: telegrafUser.language_code || "",
         isSubscribed: true,
         location: "",
         notificationTime: "",
       });
     }
+
+    return user;
+  };
+
+  public setLocation = (userId: string, location: string): User | null => {
+    const user = this.userModel.update(userId, { location });
 
     return user;
   };

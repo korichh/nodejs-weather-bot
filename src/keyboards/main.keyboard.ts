@@ -1,6 +1,6 @@
-import { BotListener } from "../types";
+import { BotHearTrigger } from "../types";
 import { Markup } from "telegraf";
 
 export const mainKeyboard = Markup.keyboard([
-  [BotListener.SET_LOCATION, BotListener.SET_NOTIFICATION_TIME],
+  [BotHearTrigger.SET_LOCATION, BotHearTrigger.SET_NOTIFICATION_TIME],
 ]).resize();
