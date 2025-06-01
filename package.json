@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node .",
     "clean": "rimraf dist",
-    "lint": "prettier --write ./src && eslint .",
+    "lint": "prettier --write ./src && eslint . && tsc --noemit",
     "build": "npm run clean && npm run lint && tsc -p ./",
     "dev": "npm run clean && npm run lint && nodemon --watch ./src -e * -x \"ts-node src/index.ts\""
   },
