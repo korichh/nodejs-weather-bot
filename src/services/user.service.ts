@@ -23,6 +23,12 @@ export class UserService {
 
     return user;
   };
+
+  public setLocation = (userId: string, location: string): User | null => {
+    const user = this.userModel.update(userId, { location });
+
+    return user;
+  };
 }
 
 export const userService = new UserService(userModel);

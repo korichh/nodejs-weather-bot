@@ -1,10 +1,7 @@
 import { dbConfig, DBConfig } from "../configs";
-import { ERROR } from "../constants";
 import { DBData, User } from "../types";
 import { readFile, writeFile } from "../utils";
 import { v4 as uuidv4 } from "uuid";
-
-const { NOT_FOUND } = ERROR;
 
 export class UserModel {
   public constructor(private dbConfig: DBConfig) {
@@ -51,14 +48,14 @@ export class UserModel {
   public update = (
     userId: string,
     userData: Partial<Omit<User, "id">>
-  ): User => {
+  ): User | null => {
     const data = readFile<DBData>(this.dbConfig.dbName);
 
     const userIndex = data.users.findIndex(
       (user) => user.id === userId || user.telegramId === userId
     );
     if (userIndex === -1) {
-      throw new Error(NOT_FOUND("User"));
+      return null;
     }
 
     const user: User = {

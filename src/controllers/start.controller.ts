@@ -41,7 +41,12 @@ export class StartController {
       message = ALREADY_SUBSCRIBED;
     }
 
-    await ctx.reply(message, mainKeyboard.oneTime());
+    const keyboard =
+      hasLocation && hasNotificationTime
+        ? undefined
+        : mainKeyboard.oneTime();
+
+    await ctx.reply(message, keyboard);
   };
 }
 

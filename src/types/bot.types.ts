@@ -10,8 +10,8 @@ export enum BotCommandTrigger {
 }
 
 export enum BotHearTrigger {
-  SET_LOCATION = "Set location",
-  SET_NOTIFICATION_TIME = "Set notification time",
+  SET_LOCATION = "📍 Set location",
+  SET_NOTIFICATION_TIME = "⏰ Set notification time",
 }
 
 export type BotTrigger = BotCommandTrigger | BotHearTrigger;
