@@ -14,6 +14,7 @@ export class UserService {
         firstName: telegramUser.first_name,
         username: telegramUser.username || "",
         languageCode: telegramUser.language_code || "",
+        isSubscribed: true,
         location: "",
         notificationTime: "",
       });

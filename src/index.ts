@@ -1,5 +1,8 @@
 import app from "./app";
+import { ENV } from "./constants";
 import { logger } from "./utils";
+
+const { NODE_ENV } = ENV;
 
 (async (): Promise<void> => {
   try {
@@ -17,7 +20,9 @@ import { logger } from "./utils";
     });
   } catch (err) {
     if (err instanceof Error) {
-      logger.error(`[Error] ${err.message}`);
+      const message = NODE_ENV === "development" ? err.stack : err.message;
+
+      logger.error(`[Error] ${message}`);
     }
   }
 })();

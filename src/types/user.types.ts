@@ -5,6 +5,7 @@ export interface User {
   firstName: string;
   username: string;
   languageCode: string;
+  isSubscribed: boolean;
   location: string;
   notificationTime: string;
 }
