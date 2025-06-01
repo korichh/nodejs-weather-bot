@@ -1,8 +1,12 @@
-import { Context } from "telegraf";
+import { TelegrafContext } from "../types";
 
 export class TimeController {
-  public use = async (ctx: Context): Promise<void> => {
-    await ctx.reply("test time controller");
+  public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
+    await ctx.reply("test time trigger");
+  };
+
+  public handleMessage = async (ctx: TelegrafContext): Promise<void> => {
+    await ctx.reply("test time message");
   };
 }
 

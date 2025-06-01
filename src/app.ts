@@ -1,12 +1,18 @@
 import { ENV } from "./constants";
-import { commandHandlers, listenerHandlers } from "./handlers";
-import { errorHandler } from "./middlewares";
-import { Context, Telegraf } from "telegraf";
+import { useErrorHandler, useSession } from "./middlewares";
+import { commandRoutes, hearRoutes, messageRoutes } from "./routes";
+import { TelegrafContext } from "./types";
+import {
+  registerCommands,
+  registerHears,
+  registerMessages,
+} from "./utils";
+import { Telegraf } from "telegraf";
 
 const { TELEGRAM_BOT_TOKEN } = ENV;
 
 class App {
-  private bot: Telegraf<Context>;
+  private bot: Telegraf<TelegrafContext>;
 
   public constructor() {
     this.bot = new Telegraf(TELEGRAM_BOT_TOKEN);
@@ -15,22 +21,23 @@ class App {
   }
 
   private init = (): void => {
-    this.setupHandlers();
+    this.setupMiddlewares();
+    this.setupRoutes();
     this.setupErrorHandler();
   };
 
-  private setupHandlers = (): void => {
-    Object.entries(commandHandlers).forEach(([command, handlerFn]) => {
-      this.bot.command(command, handlerFn);
-    });
+  private setupMiddlewares = (): void => {
+    this.bot.use(useSession);
+  };
 
-    Object.entries(listenerHandlers).forEach(([listener, handlerFn]) => {
-      this.bot.hears(listener, handlerFn);
-    });
+  private setupRoutes = (): void => {
+    registerCommands(this.bot, commandRoutes);
+    registerHears(this.bot, hearRoutes);
+    registerMessages(this.bot, messageRoutes);
   };
 
   private setupErrorHandler = (): void => {
-    this.bot.catch(errorHandler);
+    this.bot.catch(useErrorHandler);
   };
 
   public start = async (

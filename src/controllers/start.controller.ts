@@ -1,7 +1,7 @@
 import { MESSAGE } from "../constants";
 import { mainKeyboard } from "../keyboards";
 import { userService, UserService } from "../services";
-import { Context } from "telegraf";
+import { TelegrafContext } from "../types";
 
 const {
   WELCOME,
@@ -15,17 +15,17 @@ const {
 export class StartController {
   public constructor(private userService: UserService) {}
 
-  public use = async (ctx: Context): Promise<void> => {
+  public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
     await ctx.reply(WELCOME);
 
-    const telegramUser = ctx.from;
-    if (!telegramUser) {
+    const telegrafUser = ctx.from;
+    if (!telegrafUser) {
       ctx.reply(UNABLE_TO_OBTAIN_USER);
 
       return;
     }
 
-    const user = this.userService.save(telegramUser);
+    const user = this.userService.save(telegrafUser);
     const hasLocation = !!user.location?.trim();
     const hasNotificationTime = !!user.notificationTime?.trim();
 
