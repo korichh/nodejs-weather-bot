@@ -5,11 +5,11 @@ import { TelegrafContext } from "../types";
 import { isValidLocation } from "../utils";
 import { Message } from "telegraf/typings/core/types/typegram";
 
-const { INVALID_LOCATION, USER_NOT_FOUND } = ERROR;
+const { ERROR_MESSAGE, INVALID_LOCATION, USER_NOT_FOUND } = ERROR;
 const {
   PROMPT_ENTER_LOCATION,
   SUCCESS_LOCATION,
-  SUCCESS_LOCATION_WITH_NOTIFICATION_PROMPT,
+  SUCCESS_LOCATION_WITH_TIME_PROMPT,
 } = MESSAGE;
 
 export class LocationController {
@@ -22,14 +22,13 @@ export class LocationController {
   public handleMessage = async (ctx: TelegrafContext): Promise<void> => {
     try {
       const userId = String(ctx.from?.id || "");
-      const location = (ctx.message as Message.TextMessage).text
-        .trim()
-        .toLowerCase();
+      const userPrompt = (ctx.message as Message.TextMessage).text;
 
-      if (!isValidLocation(location)) {
+      if (!isValidLocation(userPrompt)) {
         throw new Error(INVALID_LOCATION);
       }
 
+      const location = userPrompt.trim().toLowerCase();
       const user = this.userService.setLocation(userId, location);
       if (!user) {
         throw new Error(USER_NOT_FOUND);
@@ -39,16 +38,19 @@ export class LocationController {
 
       const message = hasNotificationTime
         ? SUCCESS_LOCATION(location)
-        : SUCCESS_LOCATION_WITH_NOTIFICATION_PROMPT(location);
+        : SUCCESS_LOCATION_WITH_TIME_PROMPT(location);
 
       const keyboard = hasNotificationTime
         ? undefined
         : mainKeyboard.oneTime();
 
-      ctx.reply(message, keyboard);
+      await ctx.reply(message, keyboard);
     } catch (err) {
       if (err instanceof Error) {
-        ctx.reply(`❌ Error: ${err.message}`);
+        await ctx.reply(
+          ERROR_MESSAGE(err.message),
+          mainKeyboard.oneTime()
+        );
       }
     }
   };

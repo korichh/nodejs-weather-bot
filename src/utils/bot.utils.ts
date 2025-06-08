@@ -36,7 +36,7 @@ export const registerMessages = (
   bot: Telegraf<TelegrafContext>,
   messageRoutes: BotMessageRoutes
 ): void => {
-  bot.on(message("text"), async (ctx) => {
+  bot.on(message(), async (ctx) => {
     const lastTrigger = ctx.session.lastTrigger;
     if (!lastTrigger) {
       return;
