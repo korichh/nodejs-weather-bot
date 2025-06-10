@@ -1,6 +1,6 @@
 import { ENV } from "../constants";
 import { Api } from "../lib";
-import { WeatherGeo } from "../types";
+import { UserLocation, WeatherGeo } from "../types";
 
 const { WEATHER_API_URL, WEATHER_API_KEY } = ENV;
 
@@ -18,7 +18,27 @@ export class WeatherService {
     return data[0] || null;
   };
 
-  public getForecast = (): void => {};
+  public getForecast = async (
+    userLocation: UserLocation | null
+    // TODO: add forecast type
+  ): Promise<unknown> => {
+    if (!userLocation) {
+      return null;
+    }
+
+    const url = `${WEATHER_API_URL}/data/2.5/forecast`;
+    const params = new URLSearchParams({
+      appid: WEATHER_API_KEY,
+      units: "metric",
+      lat: String(userLocation.lat),
+      lon: String(userLocation.lon),
+    });
+
+    const response = await Api.get(url, { params });
+    const data = response.data;
+
+    return data;
+  };
 }
 
 export const weatherService = new WeatherService();
