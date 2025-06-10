@@ -33,19 +33,18 @@ export class TimeController {
         userId,
         notificationTime
       );
+
       if (!user) {
         throw new Error(USER_NOT_FOUND);
       }
 
-      const hasLocation = !!user.location?.trim();
+      const hasLocation = !!user.location;
 
       const message = hasLocation
         ? SUCCESS_TIME(notificationTime)
         : SUCCESS_TIME_WITH_LOCATION_PROMPT(notificationTime);
 
-      const keyboard = hasLocation ? undefined : mainKeyboard.oneTime();
-
-      await ctx.reply(message, keyboard);
+      await ctx.reply(message, mainKeyboard.oneTime());
     } catch (err) {
       if (err instanceof Error) {
         await ctx.reply(

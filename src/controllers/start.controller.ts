@@ -25,9 +25,9 @@ export class StartController {
       return;
     }
 
-    const user = this.userService.save(telegrafUser);
-    const hasLocation = !!user.location?.trim();
-    const hasNotificationTime = !!user.notificationTime?.trim();
+    const user = this.userService.get(telegrafUser);
+    const hasLocation = !!user.location;
+    const hasNotificationTime = !!user.notificationTime;
 
     let message: string;
 
@@ -41,12 +41,7 @@ export class StartController {
       message = ALREADY_SUBSCRIBED;
     }
 
-    const keyboard =
-      hasLocation && hasNotificationTime
-        ? undefined
-        : mainKeyboard.oneTime();
-
-    await ctx.reply(message, keyboard);
+    await ctx.reply(message, mainKeyboard.oneTime());
   };
 }
 

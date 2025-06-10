@@ -1,6 +1,8 @@
 import { ENV } from "./constants";
 import { useErrorHandler, useSession } from "./middlewares";
+import { userModel } from "./models";
 import { commandRoutes, hearRoutes, messageRoutes } from "./routes";
+import { weatherService } from "./services";
 import { TelegrafContext } from "./types";
 import {
   registerCommands,
@@ -23,6 +25,7 @@ class App {
   private init = (): void => {
     this.setupMiddlewares();
     this.setupRoutes();
+    this.testForecast();
     this.setupErrorHandler();
   };
 
@@ -34,6 +37,16 @@ class App {
     registerCommands(this.bot, commandRoutes);
     registerHears(this.bot, hearRoutes);
     registerMessages(this.bot, messageRoutes);
+  };
+
+  // TODO: remove test forecast method
+  private testForecast = async (): Promise<void> => {
+    const users = userModel.getAll();
+
+    for (const user of users) {
+      // const forecast = await weatherService.getForecast(user.location);
+      // console.log(forecast);
+    }
   };
 
   private setupErrorHandler = (): void => {
