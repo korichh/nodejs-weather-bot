@@ -1,11 +1,11 @@
 import { userModel, UserModel } from "../models";
-import { TelegrafUser } from "../types";
+import { TelegrafUser, UserLocation } from "../types";
 import { User } from "../types";
 
 export class UserService {
   public constructor(private userModel: UserModel) {}
 
-  public save = (telegrafUser: TelegrafUser): User => {
+  public get = (telegrafUser: TelegrafUser): User => {
     let user = this.userModel.get(String(telegrafUser.id));
 
     if (!user) {
@@ -16,7 +16,7 @@ export class UserService {
         username: telegrafUser.username || "",
         languageCode: telegrafUser.language_code || "",
         isSubscribed: true,
-        location: "",
+        location: null,
         notificationTime: "",
       });
     }
@@ -24,7 +24,10 @@ export class UserService {
     return user;
   };
 
-  public setLocation = (userId: string, location: string): User | null => {
+  public setLocation = (
+    userId: string,
+    location: UserLocation | null
+  ): User | null => {
     const user = this.userModel.update(userId, { location });
 
     return user;

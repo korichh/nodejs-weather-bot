@@ -1,6 +1,11 @@
 import { ERROR, MESSAGE } from "../constants";
 import { mainKeyboard } from "../keyboards";
-import { userService, UserService } from "../services";
+import {
+  userService,
+  UserService,
+  weatherService,
+  WeatherService,
+} from "../services";
 import { TelegrafContext } from "../types";
 import { isValidLocation } from "../utils";
 import { Message } from "telegraf/typings/core/types/typegram";
@@ -13,7 +18,10 @@ const {
 } = MESSAGE;
 
 export class LocationController {
-  public constructor(private userService: UserService) {}
+  public constructor(
+    private weatherService: WeatherService,
+    private userService: UserService
+  ) {}
 
   public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
     await ctx.reply(PROMPT_ENTER_LOCATION);
@@ -29,22 +37,27 @@ export class LocationController {
       }
 
       const location = userPrompt.trim().toLowerCase();
-      const user = this.userService.setLocation(userId, location);
+      const locationGeo = await this.weatherService.getGeo(location);
+
+      if (!locationGeo) {
+        throw new Error(INVALID_LOCATION);
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { local_names, ...userLocation } = locationGeo;
+      const user = this.userService.setLocation(userId, userLocation);
+
       if (!user) {
         throw new Error(USER_NOT_FOUND);
       }
 
-      const hasNotificationTime = !!user.notificationTime?.trim();
+      const hasNotificationTime = !!user.notificationTime;
 
       const message = hasNotificationTime
-        ? SUCCESS_LOCATION(location)
-        : SUCCESS_LOCATION_WITH_TIME_PROMPT(location);
+        ? SUCCESS_LOCATION(userLocation.name)
+        : SUCCESS_LOCATION_WITH_TIME_PROMPT(userLocation.name);
 
-      const keyboard = hasNotificationTime
-        ? undefined
-        : mainKeyboard.oneTime();
-
-      await ctx.reply(message, keyboard);
+      await ctx.reply(message, mainKeyboard.oneTime());
     } catch (err) {
       if (err instanceof Error) {
         await ctx.reply(
@@ -56,4 +69,7 @@ export class LocationController {
   };
 }
 
-export const locationController = new LocationController(userService);
+export const locationController = new LocationController(
+  weatherService,
+  userService
+);

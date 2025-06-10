@@ -1,5 +1,5 @@
 export const ERROR = {
-  ERROR_MESSAGE: (message: string = ""): string => `❌ Error: ${message}`,
+  ERROR_MESSAGE: (message: string): string => `❌ Error: ${message}`,
   NOT_FOUND: (entity: string = ""): string =>
     entity ? `${entity} is not found.` : "Not found.",
   INVALID_LOCATION: "Please enter a valid location.",
