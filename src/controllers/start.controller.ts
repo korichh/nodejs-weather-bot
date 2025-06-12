@@ -27,15 +27,15 @@ export class StartController {
 
     const user = this.userService.get(telegrafUser);
     const hasLocation = !!user.location;
-    const hasNotificationTime = !!user.notificationTime;
+    const hasTime = !!user.time;
 
     let message: string;
 
-    if (!hasLocation && !hasNotificationTime) {
+    if (!hasLocation && !hasTime) {
       message = MISSING_LOCATION_TIME;
     } else if (!hasLocation) {
       message = MISSING_LOCATION;
-    } else if (!hasNotificationTime) {
+    } else if (!hasTime) {
       message = MISSING_TIME;
     } else {
       message = ALREADY_SUBSCRIBED;

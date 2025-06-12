@@ -7,4 +7,5 @@ export interface WeatherGeo {
   lon: number;
   country: string;
   state: string;
+  timeZone: string;
 }

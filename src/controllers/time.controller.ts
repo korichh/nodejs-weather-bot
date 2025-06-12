@@ -28,11 +28,8 @@ export class TimeController {
         throw new Error(INVALID_TIME);
       }
 
-      const notificationTime = userPrompt.trim().toLowerCase();
-      const user = this.userService.setNotificationTime(
-        userId,
-        notificationTime
-      );
+      const time = userPrompt.trim().toLowerCase();
+      const user = this.userService.setTime(userId, time);
 
       if (!user) {
         throw new Error(USER_NOT_FOUND);
@@ -41,8 +38,8 @@ export class TimeController {
       const hasLocation = !!user.location;
 
       const message = hasLocation
-        ? SUCCESS_TIME(notificationTime)
-        : SUCCESS_TIME_WITH_LOCATION_PROMPT(notificationTime);
+        ? SUCCESS_TIME(time)
+        : SUCCESS_TIME_WITH_LOCATION_PROMPT(time);
 
       await ctx.reply(message, mainKeyboard.oneTime());
     } catch (err) {

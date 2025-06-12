@@ -17,7 +17,7 @@ export class UserService {
         languageCode: telegrafUser.language_code || "",
         isSubscribed: true,
         location: null,
-        notificationTime: "",
+        time: "",
       });
     }
 
@@ -33,11 +33,8 @@ export class UserService {
     return user;
   };
 
-  public setNotificationTime = (
-    userId: string,
-    notificationTime: string
-  ): User | null => {
-    const user = this.userModel.update(userId, { notificationTime });
+  public setTime = (userId: string, time: string): User | null => {
+    const user = this.userModel.update(userId, { time });
 
     return user;
   };

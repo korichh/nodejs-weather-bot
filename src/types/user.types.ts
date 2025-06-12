@@ -11,5 +11,5 @@ export interface User {
   languageCode: string;
   isSubscribed: boolean;
   location: UserLocation | null;
-  notificationTime: string;
+  time: string;
 }

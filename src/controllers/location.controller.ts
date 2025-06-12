@@ -51,9 +51,9 @@ export class LocationController {
         throw new Error(USER_NOT_FOUND);
       }
 
-      const hasNotificationTime = !!user.notificationTime;
+      const hasTime = !!user.time;
 
-      const message = hasNotificationTime
+      const message = hasTime
         ? SUCCESS_LOCATION(userLocation.name)
         : SUCCESS_LOCATION_WITH_TIME_PROMPT(userLocation.name);
 

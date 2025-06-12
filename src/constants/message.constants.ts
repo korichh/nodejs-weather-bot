@@ -13,8 +13,8 @@ export const MESSAGE = {
     `${MESSAGE.SUCCESS_LOCATION(location)} Please set the notification time as well.`,
   PROMPT_ENTER_TIME:
     "Please, enter your desired notification time (e.g. 7:00).",
-  SUCCESS_TIME: (notificationTime: string): string =>
-    `⏰ Your notification time has been set to: ${notificationTime}.`,
-  SUCCESS_TIME_WITH_LOCATION_PROMPT: (notificationTime: string): string =>
-    `${MESSAGE.SUCCESS_TIME(notificationTime)}. Please set the location as well.`,
+  SUCCESS_TIME: (time: string): string =>
+    `⏰ Your notification time has been set to: ${time}.`,
+  SUCCESS_TIME_WITH_LOCATION_PROMPT: (time: string): string =>
+    `${MESSAGE.SUCCESS_TIME(time)}. Please set the location as well.`,
 };
