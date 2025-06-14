@@ -5,7 +5,7 @@ import {
   formatForecastDay,
   formatForecastTime,
   formatForecastSun,
-} from "./date.utils";
+} from "./date";
 
 const { WEATHER_REPORT, CITY_REPORT, CITY_REPORT_DAY } = MESSAGE;
 

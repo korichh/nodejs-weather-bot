@@ -1,7 +1,7 @@
 import { userModel } from "../models";
 import { weatherService } from "../services";
 import { TelegrafContext } from "../types";
-import { parseForecast } from "../utils/weather.utils";
+import { parseForecast } from "../utils/weather";
 import { CronJob } from "cron";
 import { Telegraf } from "telegraf";
 import { ExtraReplyMessage } from "telegraf/typings/telegram-types";

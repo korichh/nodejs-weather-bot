@@ -1,10 +1,10 @@
 import { database, Database } from "../lib";
-import { DbData, User } from "../types";
+import { DatabaseData, User } from "../types";
 import { v4 as uuidv4 } from "uuid";
 
 export class UserModel {
   public constructor(private database: Database) {
-    const data = this.database.read<DbData>();
+    const data = this.database.read<DatabaseData>();
 
     if (!data.users) {
       data["users"] = [];
@@ -14,13 +14,13 @@ export class UserModel {
   }
 
   public getAll = (): User[] => {
-    const data = this.database.read<DbData>();
+    const data = this.database.read<DatabaseData>();
 
     return data.users;
   };
 
   public get = (userId: string): User | null => {
-    const data = this.database.read<DbData>();
+    const data = this.database.read<DatabaseData>();
 
     const user = data.users.find(
       (user) => user.id === userId || user.telegramId === userId
@@ -30,7 +30,7 @@ export class UserModel {
   };
 
   public create = (userData: Omit<User, "id">): User => {
-    const data = this.database.read<DbData>();
+    const data = this.database.read<DatabaseData>();
 
     const user = {
       id: uuidv4(),
@@ -48,7 +48,7 @@ export class UserModel {
     userId: string,
     userData: Partial<Omit<User, "id">>
   ): User | null => {
-    const data = this.database.read<DbData>();
+    const data = this.database.read<DatabaseData>();
 
     const userIndex = data.users.findIndex(
       (user) => user.id === userId || user.telegramId === userId
@@ -70,7 +70,7 @@ export class UserModel {
   };
 
   public delete = (userId: string): void => {
-    const data = this.database.read<DbData>();
+    const data = this.database.read<DatabaseData>();
 
     data.users = data.users.filter(
       (user) => user.id !== userId && user.telegramId !== userId

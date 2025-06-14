@@ -1,1 +1,1 @@
-export * from "./weather.config";
+export * from "./weather";

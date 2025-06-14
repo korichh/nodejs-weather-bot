@@ -1,4 +1,4 @@
-import { WeatherGeo } from "./weather.types";
+import { WeatherGeo } from "./weather";
 
 export type UserLocation = Omit<WeatherGeo, "local_names">;
 

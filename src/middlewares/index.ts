@@ -1,3 +1,3 @@
-export * from "./error.middleware";
-export * from "./session.middleware";
-export * from "./trigger.middleware";
+export * from "./error";
+export * from "./session";
+export * from "./trigger";
