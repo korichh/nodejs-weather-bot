@@ -17,7 +17,7 @@ export class UserService {
         languageCode: telegrafUser.language_code || "",
         isSubscribed: true,
         location: null,
-        time: "",
+        time: "9:00",
       });
     }
 

@@ -1,27 +1,26 @@
-import { dbConfig, DBConfig } from "../configs";
-import { DBData, User } from "../types";
-import { readFile, writeFile } from "../utils";
+import { database, Database } from "../lib";
+import { DbData, User } from "../types";
 import { v4 as uuidv4 } from "uuid";
 
 export class UserModel {
-  public constructor(private dbConfig: DBConfig) {
-    const data = readFile<DBData>(this.dbConfig.dbName);
+  public constructor(private database: Database) {
+    const data = this.database.read<DbData>();
 
     if (!data.users) {
       data["users"] = [];
 
-      writeFile(this.dbConfig.dbName, data);
+      this.database.write(data);
     }
   }
 
   public getAll = (): User[] => {
-    const data = readFile<DBData>(this.dbConfig.dbName);
+    const data = this.database.read<DbData>();
 
     return data.users;
   };
 
   public get = (userId: string): User | null => {
-    const data = readFile<DBData>(this.dbConfig.dbName);
+    const data = this.database.read<DbData>();
 
     const user = data.users.find(
       (user) => user.id === userId || user.telegramId === userId
@@ -31,7 +30,7 @@ export class UserModel {
   };
 
   public create = (userData: Omit<User, "id">): User => {
-    const data = readFile<DBData>(this.dbConfig.dbName);
+    const data = this.database.read<DbData>();
 
     const user = {
       id: uuidv4(),
@@ -40,7 +39,7 @@ export class UserModel {
 
     data.users = [...data.users, user];
 
-    writeFile(this.dbConfig.dbName, data);
+    this.database.write(data);
 
     return user;
   };
@@ -49,7 +48,7 @@ export class UserModel {
     userId: string,
     userData: Partial<Omit<User, "id">>
   ): User | null => {
-    const data = readFile<DBData>(this.dbConfig.dbName);
+    const data = this.database.read<DbData>();
 
     const userIndex = data.users.findIndex(
       (user) => user.id === userId || user.telegramId === userId
@@ -65,20 +64,20 @@ export class UserModel {
 
     data.users[userIndex] = user;
 
-    writeFile(this.dbConfig.dbName, data);
+    this.database.write(data);
 
     return user;
   };
 
   public delete = (userId: string): void => {
-    const data = readFile<DBData>(this.dbConfig.dbName);
+    const data = this.database.read<DbData>();
 
     data.users = data.users.filter(
       (user) => user.id !== userId && user.telegramId !== userId
     );
 
-    writeFile(this.dbConfig.dbName, data);
+    this.database.write(data);
   };
 }
 
-export const userModel = new UserModel(dbConfig);
+export const userModel = new UserModel(database);

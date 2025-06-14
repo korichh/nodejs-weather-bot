@@ -10,7 +10,7 @@ import {
 import { Telegraf } from "telegraf";
 import { message } from "telegraf/filters";
 
-export const registerCommands = (
+export const initCommands = (
   bot: Telegraf<TelegrafContext>,
   commandRoutes: BotCommandRoutes
 ): void => {
@@ -23,7 +23,7 @@ export const registerCommands = (
   });
 };
 
-export const registerHears = (
+export const initHears = (
   bot: Telegraf<TelegrafContext>,
   hearRoutes: BotHearRoutes
 ): void => {
@@ -32,7 +32,7 @@ export const registerHears = (
   });
 };
 
-export const registerMessages = (
+export const initMessages = (
   bot: Telegraf<TelegrafContext>,
   messageRoutes: BotMessageRoutes
 ): void => {

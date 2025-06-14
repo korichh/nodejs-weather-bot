@@ -1,5 +1,5 @@
 import { User } from "./user.types";
 
-export interface DBData {
+export interface DbData {
   users: User[];
 }

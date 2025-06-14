@@ -18,12 +18,14 @@
     "cron": "^4.3.1",
     "dotenv": "^16.4.7",
     "geo-tz": "^8.1.4",
+    "luxon": "^3.6.1",
     "telegraf": "^4.16.3",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@swc/core": "^1.7.35",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "@types/luxon": "^3.6.2",
     "@types/node": "^22.7.5",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",

@@ -1,6 +1,8 @@
+import { WEATHER_CONFIG } from "../configs";
 import { ENV } from "../constants";
 import { Api } from "../lib";
-import { UserLocation, WeatherGeo } from "../types";
+import { ForecastCityCoord, WeatherForecast, WeatherGeo } from "../types";
+import { find as findTz } from "geo-tz";
 
 const { WEATHER_API_URL, WEATHER_API_KEY } = ENV;
 
@@ -15,26 +17,30 @@ export class WeatherService {
     const response = await Api.get<WeatherGeo[]>(url, { params });
     const data = response.data;
 
-    return data[0] || null;
-  };
-
-  public getForecast = async (
-    userLocation: UserLocation | null
-    // TODO: add forecast type
-  ): Promise<unknown> => {
-    if (!userLocation) {
+    const weatherGeo = data[0];
+    if (!weatherGeo) {
       return null;
     }
 
+    weatherGeo.timeZone = findTz(weatherGeo.lat, weatherGeo.lon)[0] || "";
+
+    return weatherGeo;
+  };
+
+  public getForecast = async (
+    cityCoord: ForecastCityCoord
+  ): Promise<WeatherForecast> => {
     const url = `${WEATHER_API_URL}/data/2.5/forecast`;
+    const forecastCnt = WEATHER_CONFIG.maxDaysForecast * 8;
     const params = new URLSearchParams({
       appid: WEATHER_API_KEY,
+      lat: String(cityCoord.lat),
+      lon: String(cityCoord.lon),
       units: "metric",
-      lat: String(userLocation.lat),
-      lon: String(userLocation.lon),
+      cnt: String(forecastCnt),
     });
 
-    const response = await Api.get(url, { params });
+    const response = await Api.get<WeatherForecast>(url, { params });
     const data = response.data;
 
     return data;
