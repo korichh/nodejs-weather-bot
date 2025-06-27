@@ -1,8 +1,9 @@
 import { ERROR, MESSAGE } from "../constants";
 import { mainKeyboard } from "../keyboards";
-import { userService, UserService } from "../services";
+import { UserService } from "../services";
 import { TelegrafContext } from "../types";
 import { isValidTime } from "../utils";
+import { inject, injectable } from "inversify";
 import { Message } from "telegraf/typings/core/types/typegram";
 
 const { ERROR_MESSAGE, INVALID_TIME, USER_NOT_FOUND } = ERROR;
@@ -12,8 +13,11 @@ const {
   SUCCESS_TIME_WITH_LOCATION_PROMPT,
 } = MESSAGE;
 
+@injectable()
 export class TimeController {
-  public constructor(private userService: UserService) {}
+  public constructor(
+    @inject(UserService) private userService: UserService
+  ) {}
 
   public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
     await ctx.reply(PROMPT_ENTER_TIME);
@@ -29,7 +33,7 @@ export class TimeController {
       }
 
       const time = userPrompt.trim().toLowerCase();
-      const user = this.userService.setTime(userId, time);
+      const user = await this.userService.setTime(userId, time);
 
       if (!user) {
         throw new Error(USER_NOT_FOUND);
@@ -52,5 +56,3 @@ export class TimeController {
     }
   };
 }
-
-export const timeController = new TimeController(userService);

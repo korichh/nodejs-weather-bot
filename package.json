@@ -6,7 +6,7 @@
     "start": "node .",
     "clean": "rimraf dist",
     "lint": "prettier --write ./src && eslint . && tsc --noemit",
-    "build": "npm run clean && npm run lint && tsc -p ./",
+    "build": "npm run clean && tsc -p ./",
     "dev": "npm run clean && npm run lint && nodemon --watch ./src -e * -x \"ts-node src/index.ts\""
   },
   "keywords": [],
@@ -18,7 +18,9 @@
     "cron": "^4.3.1",
     "dotenv": "^16.4.7",
     "geo-tz": "^8.1.4",
+    "inversify": "^7.5.4",
     "luxon": "^3.6.1",
+    "reflect-metadata": "^0.2.2",
     "telegraf": "^4.16.3",
     "uuid": "^11.1.0"
   },

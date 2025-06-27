@@ -1,13 +1,9 @@
 import { ERROR, MESSAGE } from "../constants";
 import { mainKeyboard } from "../keyboards";
-import {
-  userService,
-  UserService,
-  weatherService,
-  WeatherService,
-} from "../services";
+import { UserService, WeatherService } from "../services";
 import { TelegrafContext } from "../types";
 import { isValidLocation } from "../utils";
+import { injectable, inject } from "inversify";
 import { Message } from "telegraf/typings/core/types/typegram";
 
 const { ERROR_MESSAGE, INVALID_LOCATION, USER_NOT_FOUND } = ERROR;
@@ -17,10 +13,11 @@ const {
   SUCCESS_LOCATION_WITH_TIME_PROMPT,
 } = MESSAGE;
 
+@injectable()
 export class LocationController {
   public constructor(
-    private weatherService: WeatherService,
-    private userService: UserService
+    @inject(UserService) private userService: UserService,
+    @inject(WeatherService) private weatherService: WeatherService
   ) {}
 
   public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
@@ -45,7 +42,10 @@ export class LocationController {
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { local_names, ...userLocation } = locationGeo;
-      const user = this.userService.setLocation(userId, userLocation);
+      const user = await this.userService.setLocation(
+        userId,
+        userLocation
+      );
 
       if (!user) {
         throw new Error(USER_NOT_FOUND);
@@ -68,8 +68,3 @@ export class LocationController {
     }
   };
 }
-
-export const locationController = new LocationController(
-  weatherService,
-  userService
-);

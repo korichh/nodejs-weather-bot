@@ -1,26 +1,32 @@
-import { database, Database } from "../lib";
+import { Database } from "../lib";
 import { DatabaseData, User } from "../types";
+import { inject, injectable } from "inversify";
 import { v4 as uuidv4 } from "uuid";
 
+@injectable()
 export class UserModel {
-  public constructor(private database: Database) {
-    const data = this.database.read<DatabaseData>();
+  public constructor(@inject(Database) private database: Database) {}
+
+  private getData = async (): Promise<DatabaseData> => {
+    const data = await this.database.read<DatabaseData>();
 
     if (!data.users) {
       data["users"] = [];
 
-      this.database.write(data);
+      await this.database.write(data);
     }
-  }
 
-  public getAll = (): User[] => {
-    const data = this.database.read<DatabaseData>();
+    return data;
+  };
+
+  public getAll = async (): Promise<User[]> => {
+    const data = await this.getData();
 
     return data.users;
   };
 
-  public get = (userId: string): User | null => {
-    const data = this.database.read<DatabaseData>();
+  public get = async (userId: string): Promise<User | null> => {
+    const data = await this.getData();
 
     const user = data.users.find(
       (user) => user.id === userId || user.telegramId === userId
@@ -29,8 +35,8 @@ export class UserModel {
     return user || null;
   };
 
-  public create = (userData: Omit<User, "id">): User => {
-    const data = this.database.read<DatabaseData>();
+  public create = async (userData: Omit<User, "id">): Promise<User> => {
+    const data = await this.getData();
 
     const user = {
       id: uuidv4(),
@@ -39,16 +45,16 @@ export class UserModel {
 
     data.users = [...data.users, user];
 
-    this.database.write(data);
+    await this.database.write(data);
 
     return user;
   };
 
-  public update = (
+  public update = async (
     userId: string,
     userData: Partial<Omit<User, "id">>
-  ): User | null => {
-    const data = this.database.read<DatabaseData>();
+  ): Promise<User | null> => {
+    const data = await this.getData();
 
     const userIndex = data.users.findIndex(
       (user) => user.id === userId || user.telegramId === userId
@@ -64,20 +70,18 @@ export class UserModel {
 
     data.users[userIndex] = user;
 
-    this.database.write(data);
+    await this.database.write(data);
 
     return user;
   };
 
-  public delete = (userId: string): void => {
-    const data = this.database.read<DatabaseData>();
+  public delete = async (userId: string): Promise<void> => {
+    const data = await this.getData();
 
     data.users = data.users.filter(
       (user) => user.id !== userId && user.telegramId !== userId
     );
 
-    this.database.write(data);
+    await this.database.write(data);
   };
 }
-
-export const userModel = new UserModel(database);

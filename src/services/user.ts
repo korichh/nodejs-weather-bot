@@ -1,15 +1,17 @@
-import { userModel, UserModel } from "../models";
+import { UserModel } from "../models";
 import { TelegrafUser, UserLocation } from "../types";
 import { User } from "../types";
+import { inject, injectable } from "inversify";
 
+@injectable()
 export class UserService {
-  public constructor(private userModel: UserModel) {}
+  public constructor(@inject(UserModel) private userModel: UserModel) {}
 
-  public get = (telegrafUser: TelegrafUser): User => {
-    let user = this.userModel.get(String(telegrafUser.id));
+  public getUser = async (telegrafUser: TelegrafUser): Promise<User> => {
+    let user = await this.userModel.get(String(telegrafUser.id));
 
     if (!user) {
-      user = this.userModel.create({
+      user = await this.userModel.create({
         telegramId: String(telegrafUser.id),
         isBot: telegrafUser.is_bot,
         firstName: telegrafUser.first_name,
@@ -24,20 +26,21 @@ export class UserService {
     return user;
   };
 
-  public setLocation = (
+  public setLocation = async (
     userId: string,
     location: UserLocation | null
-  ): User | null => {
-    const user = this.userModel.update(userId, { location });
+  ): Promise<User | null> => {
+    const user = await this.userModel.update(userId, { location });
 
     return user;
   };
 
-  public setTime = (userId: string, time: string): User | null => {
-    const user = this.userModel.update(userId, { time });
+  public setTime = async (
+    userId: string,
+    time: string
+  ): Promise<User | null> => {
+    const user = await this.userModel.update(userId, { time });
 
     return user;
   };
 }
-
-export const userService = new UserService(userModel);

@@ -16,7 +16,7 @@ export enum BotHearTrigger {
 
 export type BotTrigger = BotCommandTrigger | BotHearTrigger;
 
-export type BotHandlerFn = (ctx: TelegrafContext) => void;
+export type BotHandlerFn = (ctx: TelegrafContext) => Promise<void>;
 
 export interface TelegrafSession {
   lastTrigger: BotTrigger | null;

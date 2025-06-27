@@ -3,10 +3,14 @@ import { ENV } from "../constants";
 import { Api } from "../lib";
 import { ForecastCityCoord, WeatherForecast, WeatherGeo } from "../types";
 import { find as findTz } from "geo-tz";
+import { injectable } from "inversify";
 
 const { WEATHER_API_URL, WEATHER_API_KEY } = ENV;
 
+@injectable()
 export class WeatherService {
+  public constructor() {}
+
   public getGeo = async (location: string): Promise<WeatherGeo | null> => {
     const url = `${WEATHER_API_URL}/geo/1.0/direct`;
     const params = new URLSearchParams({
@@ -46,5 +50,3 @@ export class WeatherService {
     return data;
   };
 }
-
-export const weatherService = new WeatherService();

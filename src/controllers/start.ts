@@ -1,7 +1,8 @@
 import { MESSAGE } from "../constants";
 import { mainKeyboard } from "../keyboards";
-import { userService, UserService } from "../services";
+import { UserService } from "../services";
 import { TelegrafContext } from "../types";
+import { inject, injectable } from "inversify";
 
 const {
   WELCOME,
@@ -12,8 +13,11 @@ const {
   ALREADY_SUBSCRIBED,
 } = MESSAGE;
 
+@injectable()
 export class StartController {
-  public constructor(private userService: UserService) {}
+  public constructor(
+    @inject(UserService) private userService: UserService
+  ) {}
 
   public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
     await ctx.reply(WELCOME);
@@ -25,7 +29,7 @@ export class StartController {
       return;
     }
 
-    const user = this.userService.get(telegrafUser);
+    const user = await this.userService.getUser(telegrafUser);
     const hasLocation = !!user.location;
     const hasTime = !!user.time;
 
@@ -44,5 +48,3 @@ export class StartController {
     await ctx.reply(message, mainKeyboard.oneTime());
   };
 }
-
-export const startController = new StartController(userService);

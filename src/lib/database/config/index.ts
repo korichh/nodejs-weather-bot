@@ -1,4 +1,4 @@
-export const DATABASE_CONFIG = {
+export const CONFIG = {
   dbDir: "database",
   dbName: "db",
 };

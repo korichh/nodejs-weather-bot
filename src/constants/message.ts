@@ -14,7 +14,7 @@ export const MESSAGE = {
 
   ALREADY_SUBSCRIBED: "✅ You are already subscribed.",
 
-  PROMPT_ENTER_LOCATION: "Please, enter your city (e.g. kharkiv).",
+  PROMPT_ENTER_LOCATION: "Please, enter your city (e.g. Kharkiv).",
 
   SUCCESS_LOCATION: (location: string): string =>
     `📍 Your location has been set to: ${location}.`,
@@ -23,13 +23,13 @@ export const MESSAGE = {
     `${MESSAGE.SUCCESS_LOCATION(location)} Please set the notification time as well.`,
 
   PROMPT_ENTER_TIME:
-    "Please, enter your desired notification time (e.g. 7:00).",
+    "Please, enter your desired notification time (e.g. 9:00).",
 
   SUCCESS_TIME: (time: string): string =>
     `⏰ Your notification time has been set to: ${time}.`,
 
   SUCCESS_TIME_WITH_LOCATION_PROMPT: (time: string): string =>
-    `${MESSAGE.SUCCESS_TIME(time)}. Please set the location as well.`,
+    `${MESSAGE.SUCCESS_TIME(time)} Please set the location as well.`,
 
   WEATHER_REPORT: (params: WeatherReport): string =>
     `🕒 *${params.time}*\n\n` +
