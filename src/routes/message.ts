@@ -11,7 +11,8 @@ import { message } from "telegraf/filters";
 @injectable()
 export class MessageRoutes {
   public constructor(
-    @inject(Telegraf) private bot: Telegraf<TelegrafContext>,
+    @inject(Telegraf<TelegrafContext>)
+    private bot: Telegraf<TelegrafContext>,
     @inject(LocationController)
     private locationController: LocationController,
     @inject(TimeController) private timeController: TimeController

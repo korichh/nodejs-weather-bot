@@ -11,7 +11,8 @@ import { Telegraf } from "telegraf";
 @injectable()
 export class CommandRoutes {
   public constructor(
-    @inject(Telegraf) private bot: Telegraf<TelegrafContext>,
+    @inject(Telegraf<TelegrafContext>)
+    private bot: Telegraf<TelegrafContext>,
     @inject(StartController) private startController: StartController
   ) {}
 

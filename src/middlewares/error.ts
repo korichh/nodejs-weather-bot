@@ -14,3 +14,11 @@ export const useErrorHandler = (
     logger.error(`[Bot Error] ${message}`);
   }
 };
+
+export const useJobErrorHandler = (err: unknown): void => {
+  if (err instanceof Error) {
+    const message = NODE_ENV === "development" ? err.stack : err.message;
+
+    logger.error(`[Job Error] ${message}`);
+  }
+};

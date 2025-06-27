@@ -1,5 +1,7 @@
+import { ForecastJob } from "../../jobs";
 import { Database } from "../../lib";
 import { useErrorHandler, useSession } from "../../middlewares";
+import { UserModel } from "../../models";
 import { CommandRoutes, HearRoutes, MessageRoutes } from "../../routes";
 import { TelegrafContext } from "../../types";
 import { inject, injectable } from "inversify";
@@ -13,14 +15,16 @@ export class App {
     @inject(Database) private database: Database,
     @inject(CommandRoutes) private commandRoutes: CommandRoutes,
     @inject(HearRoutes) private hearRoutes: HearRoutes,
-    @inject(MessageRoutes) private messageRoutes: MessageRoutes
+    @inject(MessageRoutes) private messageRoutes: MessageRoutes,
+    @inject(UserModel) private userModel: UserModel,
+    @inject(ForecastJob) private forecastJob: ForecastJob
   ) {}
 
   public init = async (): Promise<void> => {
     await this.setupDatabase();
     await this.setupMiddlewares();
     await this.setupRoutes();
-    // await this.setupJobs();
+    await this.setupJobs();
     await this.setupErrorHandler();
   };
 
@@ -38,13 +42,11 @@ export class App {
     await this.messageRoutes.init();
   };
 
-  // private setupJobs = async (): Promise<void> => {
-  //   await ForecastJob.create(
-  //     this.bot,
-  //     this.userModel,
-  //     this.weatherService
-  //   );
-  // };
+  private setupJobs = async (): Promise<void> => {
+    const users = await this.userModel.getAll();
+
+    await this.forecastJob.init(users);
+  };
 
   private setupErrorHandler = async (): Promise<void> => {
     this.bot.catch(useErrorHandler);

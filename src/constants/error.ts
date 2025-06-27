@@ -6,9 +6,10 @@ export const ERROR = {
   NOT_FOUND: (entity: string = ""): string =>
     entity ? `${entity} is not found.` : "Not found.",
 
-  INVALID_LOCATION: "Please enter a valid location.",
+  INVALID_LOCATION:
+    "Invalid location. Please retry with a valid location name.",
 
-  USER_NOT_FOUND: "You are not registered. Please use the /start command.",
+  USER_NOT_FOUND: "User is not registered. Please use the /start command.",
 
-  INVALID_TIME: "Please enter a valid time string.",
+  INVALID_TIME: "Invalid time. Please retry with a valid time string.",
 };

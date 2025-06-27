@@ -7,7 +7,8 @@ import { Telegraf } from "telegraf";
 @injectable()
 export class HearRoutes {
   public constructor(
-    @inject(Telegraf) private bot: Telegraf<TelegrafContext>,
+    @inject(Telegraf<TelegrafContext>)
+    private bot: Telegraf<TelegrafContext>,
     @inject(LocationController)
     private locationController: LocationController,
     @inject(TimeController) private timeController: TimeController

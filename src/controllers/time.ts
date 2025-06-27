@@ -1,4 +1,5 @@
 import { ERROR, MESSAGE } from "../constants";
+import { ForecastJob } from "../jobs";
 import { mainKeyboard } from "../keyboards";
 import { UserService } from "../services";
 import { TelegrafContext } from "../types";
@@ -16,7 +17,8 @@ const {
 @injectable()
 export class TimeController {
   public constructor(
-    @inject(UserService) private userService: UserService
+    @inject(UserService) private userService: UserService,
+    @inject(ForecastJob) private forecastJob: ForecastJob
   ) {}
 
   public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
@@ -39,11 +41,11 @@ export class TimeController {
         throw new Error(USER_NOT_FOUND);
       }
 
-      const hasLocation = !!user.location;
-
-      const message = hasLocation
+      const message = !!user.location
         ? SUCCESS_TIME(time)
         : SUCCESS_TIME_WITH_LOCATION_PROMPT(time);
+
+      await this.forecastJob.update(user);
 
       await ctx.reply(message, mainKeyboard.oneTime());
     } catch (err) {
