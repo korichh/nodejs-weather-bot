@@ -1,4 +1,4 @@
-database
-dist
-node_modules
+/database
+/dist
+/node_modules
 .env

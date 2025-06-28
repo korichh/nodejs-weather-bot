@@ -1,3 +1,4 @@
-export * from "./location.controller";
-export * from "./start.controller";
-export * from "./time.controller";
+export * from "./location";
+export * from "./start";
+export * from "./subscription";
+export * from "./time";
