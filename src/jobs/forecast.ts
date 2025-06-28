@@ -19,18 +19,14 @@ export class ForecastJob {
 
   public init = async (users: User[]): Promise<void> => {
     for (const user of users) {
-      if (user.location && user.time) {
-        await this.create(user);
-      }
+      await this.create(user);
     }
   };
 
   public update = async (user: User): Promise<void> => {
     await this.remove(user);
 
-    if (user.location && user.time) {
-      await this.create(user);
-    }
+    await this.create(user);
   };
 
   public remove = async (user: User): Promise<void> => {
@@ -44,6 +40,8 @@ export class ForecastJob {
   };
 
   private create = async (user: User): Promise<void> => {
+    if (!user.location || !user.time || !user.isSubscribed) return;
+
     const [hour, minute] = user.time.split(":");
     const cronTime = `${minute} ${hour} * * *`;
     const timeZone = user.location?.timeZone;

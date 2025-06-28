@@ -1,4 +1,8 @@
-import { LocationController, TimeController } from "../controllers";
+import {
+  LocationController,
+  SubscriptionController,
+  TimeController,
+} from "../controllers";
 import { useTrigger } from "../middlewares";
 import { BotHearTrigger, BotHearRoutes, TelegrafContext } from "../types";
 import { inject, injectable } from "inversify";
@@ -11,7 +15,9 @@ export class HearRoutes {
     private bot: Telegraf<TelegrafContext>,
     @inject(LocationController)
     private locationController: LocationController,
-    @inject(TimeController) private timeController: TimeController
+    @inject(TimeController) private timeController: TimeController,
+    @inject(SubscriptionController)
+    private subscriptionController: SubscriptionController
   ) {}
 
   public init = async (): Promise<void> => {
@@ -19,6 +25,10 @@ export class HearRoutes {
       [BotHearTrigger.SET_LOCATION]: this.locationController.handleTrigger,
       [BotHearTrigger.SET_NOTIFICATION_TIME]:
         this.timeController.handleTrigger,
+      [BotHearTrigger.SUBSCRIBE]:
+        this.subscriptionController.handleTrigger,
+      [BotHearTrigger.UNSUBSCRIBE]:
+        this.subscriptionController.handleTrigger,
     };
 
     Object.entries(hearRoutes).forEach(([hear, handlerFn]) => {

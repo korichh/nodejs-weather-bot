@@ -3,19 +3,13 @@ import { ForecastJob } from "../jobs";
 import { MainKeyboard } from "../keyboards";
 import { UserService } from "../services";
 import { TelegrafContext } from "../types";
-import { isValidTime } from "../utils";
 import { inject, injectable } from "inversify";
-import { Message } from "telegraf/typings/core/types/typegram";
 
-const { ERROR_MESSAGE, INVALID_TIME, USER_NOT_FOUND } = ERROR;
-const {
-  PROMPT_ENTER_TIME,
-  SUCCESS_TIME,
-  SUCCESS_TIME_WITH_LOCATION_PROMPT,
-} = MESSAGE;
+const { ERROR_MESSAGE, USER_NOT_FOUND } = ERROR;
+const { SUCCESS_SUBSCRIBE, SUCCESS_UNSUBSCRIBE } = MESSAGE;
 
 @injectable()
-export class TimeController {
+export class SubscriptionController {
   public constructor(
     @inject(UserService) private userService: UserService,
     @inject(ForecastJob) private forecastJob: ForecastJob,
@@ -23,28 +17,17 @@ export class TimeController {
   ) {}
 
   public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
-    await ctx.reply(PROMPT_ENTER_TIME);
-  };
-
-  public handleMessage = async (ctx: TelegrafContext): Promise<void> => {
     try {
       const userId = String(ctx.from?.id || "");
-      const userPrompt = (ctx.message as Message.TextMessage).text;
-
-      if (!isValidTime(userPrompt)) {
-        throw new Error(INVALID_TIME);
-      }
-
-      const time = userPrompt.trim().toLowerCase();
-      const user = await this.userService.setTime(userId, time);
+      const user = await this.userService.setSubscribtion(userId);
 
       if (!user) {
         throw new Error(USER_NOT_FOUND);
       }
 
-      const message = !!user.location
-        ? SUCCESS_TIME(time)
-        : SUCCESS_TIME_WITH_LOCATION_PROMPT(time);
+      const message = user.isSubscribed
+        ? SUCCESS_SUBSCRIBE
+        : SUCCESS_UNSUBSCRIBE;
 
       const keyboard = this.mainKeyboard.init(user).oneTime();
 

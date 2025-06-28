@@ -3,8 +3,6 @@ import { WeatherReport, CityReport } from "../types";
 export const MESSAGE = {
   WELCOME: "👋 Welcome to the Weather Bot!",
 
-  UNABLE_TO_OBTAIN_USER: "⚠️ Unable to obtain your user information.",
-
   MISSING_LOCATION_TIME:
     "📍⏰ Please set your location and notification time.",
 
@@ -12,7 +10,10 @@ export const MESSAGE = {
 
   MISSING_TIME: "⏰ Please set your notification time.",
 
-  ALREADY_SUBSCRIBED: "✅ You are already subscribed.",
+  READY_TO_SUBSCRIBE:
+    "📬 Your setup is complete. Please subscribe to begin receiving weather updates.",
+
+  ALREADY_SUBSCRIBED: "✅ You're already subscribed to daily forecasts.",
 
   PROMPT_ENTER_LOCATION: "Please, enter your city (e.g. Kharkiv).",
 
@@ -45,4 +46,9 @@ export const MESSAGE = {
     `🌅 Sunrise: *${params.sunrise}* | 🌇 Sunset: *${params.sunset}*`,
 
   CITY_REPORT_DAY: (day: string): string => `📅 *${day}*`,
+
+  SUCCESS_SUBSCRIBE:
+    "🟢 Subscription successful. You'll now receive daily weather forecasts.",
+
+  SUCCESS_UNSUBSCRIBE: "🔴 You've unsubscribed from weather updates.",
 };

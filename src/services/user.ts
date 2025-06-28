@@ -43,4 +43,23 @@ export class UserService {
 
     return user;
   };
+
+  public setSubscribtion = async (
+    userId: string,
+    isSubscribed?: boolean
+  ): Promise<User | null> => {
+    let user: User | null = null;
+
+    if (isSubscribed === undefined) {
+      const existing = await this.userModel.get(userId);
+
+      user = await this.userModel.update(userId, {
+        isSubscribed: !existing?.isSubscribed,
+      });
+    } else {
+      user = await this.userModel.update(userId, { isSubscribed });
+    }
+
+    return user;
+  };
 }

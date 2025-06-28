@@ -1,6 +1,6 @@
 import { ERROR, MESSAGE } from "../constants";
 import { ForecastJob } from "../jobs";
-import { mainKeyboard } from "../keyboards";
+import { MainKeyboard } from "../keyboards";
 import { UserService, WeatherService } from "../services";
 import { TelegrafContext } from "../types";
 import { isValidLocation } from "../utils";
@@ -19,7 +19,8 @@ export class LocationController {
   public constructor(
     @inject(UserService) private userService: UserService,
     @inject(WeatherService) private weatherService: WeatherService,
-    @inject(ForecastJob) private forecastJob: ForecastJob
+    @inject(ForecastJob) private forecastJob: ForecastJob,
+    @inject(MainKeyboard) private mainKeyboard: MainKeyboard
   ) {}
 
   public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
@@ -57,15 +58,14 @@ export class LocationController {
         ? SUCCESS_LOCATION(userLocation.name)
         : SUCCESS_LOCATION_WITH_TIME_PROMPT(userLocation.name);
 
-      await this.forecastJob.update(user);
+      const keyboard = this.mainKeyboard.init(user).oneTime();
 
-      await ctx.reply(message, mainKeyboard.oneTime());
+      await ctx.reply(message, keyboard);
+
+      await this.forecastJob.update(user);
     } catch (err) {
       if (err instanceof Error) {
-        await ctx.reply(
-          ERROR_MESSAGE(err.message),
-          mainKeyboard.oneTime()
-        );
+        await ctx.reply(ERROR_MESSAGE(err.message));
       }
     }
   };

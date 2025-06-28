@@ -12,6 +12,8 @@ export enum BotCommandTrigger {
 export enum BotHearTrigger {
   SET_LOCATION = "📍 Set location",
   SET_NOTIFICATION_TIME = "⏰ Set notification time",
+  SUBSCRIBE = "🟢 Subscribe",
+  UNSUBSCRIBE = "🔴 Unsubscribe",
 }
 
 export type BotTrigger = BotCommandTrigger | BotHearTrigger;
@@ -26,8 +28,10 @@ export interface TelegrafContext extends Context {
   session: TelegrafSession;
 }
 
-export type BotCommandRoutes = Record<BotCommandTrigger, BotHandlerFn>;
+export type BotCommandRoutes = Partial<
+  Record<BotCommandTrigger, BotHandlerFn>
+>;
 
-export type BotHearRoutes = Record<BotHearTrigger, BotHandlerFn>;
+export type BotHearRoutes = Partial<Record<BotHearTrigger, BotHandlerFn>>;
 
 export type BotMessageRoutes = Partial<Record<BotTrigger, BotHandlerFn>>;

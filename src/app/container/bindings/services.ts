@@ -1,5 +1,5 @@
 import { UserService, WeatherService } from "../../../services";
 import { container } from "../instance";
 
-container.bind(UserService).toSelf();
-container.bind(WeatherService).toSelf();
+container.bind(UserService).toSelf().inSingletonScope();
+container.bind(WeatherService).toSelf().inSingletonScope();

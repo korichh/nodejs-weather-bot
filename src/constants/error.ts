@@ -6,6 +6,8 @@ export const ERROR = {
   NOT_FOUND: (entity: string = ""): string =>
     entity ? `${entity} is not found.` : "Not found.",
 
+  UNABLE_TO_OBTAIN_USER: "Unable to obtain user information.",
+
   INVALID_LOCATION:
     "Invalid location. Please retry with a valid location name.",
 
