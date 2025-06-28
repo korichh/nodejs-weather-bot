@@ -1,5 +1,6 @@
 import {
   LocationController,
+  ProfileController,
   StartController,
   SubscriptionController,
   TimeController,
@@ -9,4 +10,5 @@ import { container } from "../instance";
 container.bind(LocationController).toSelf().inSingletonScope();
 container.bind(StartController).toSelf().inSingletonScope();
 container.bind(TimeController).toSelf().inSingletonScope();
+container.bind(ProfileController).toSelf().inSingletonScope();
 container.bind(SubscriptionController).toSelf().inSingletonScope();

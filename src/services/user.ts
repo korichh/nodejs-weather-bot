@@ -7,7 +7,7 @@ import { inject, injectable } from "inversify";
 export class UserService {
   public constructor(@inject(UserModel) private userModel: UserModel) {}
 
-  public getUser = async (telegrafUser: TelegrafUser): Promise<User> => {
+  public saveUser = async (telegrafUser: TelegrafUser): Promise<User> => {
     let user = await this.userModel.get(String(telegrafUser.id));
 
     if (!user) {
@@ -22,6 +22,12 @@ export class UserService {
         time: "9:00",
       });
     }
+
+    return user;
+  };
+
+  public getUser = async (userId: string): Promise<User | null> => {
+    const user = await this.userModel.get(userId);
 
     return user;
   };

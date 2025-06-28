@@ -13,6 +13,8 @@ export class MainKeyboard {
       BotHearTrigger.SET_NOTIFICATION_TIME,
     ]);
 
+    keyboard.push([BotHearTrigger.GET_PROFILE]);
+
     if (user) {
       keyboard.push([
         user.isSubscribed
