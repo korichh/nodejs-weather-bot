@@ -3,7 +3,7 @@ import { ForecastJob } from "../jobs";
 import { MainKeyboard } from "../keyboards";
 import { UserService } from "../services";
 import { TelegrafContext, TelegrafNext } from "../types";
-import { isValidTime } from "../utils";
+import { getT, isValidTime } from "../utils";
 import { inject, injectable } from "inversify";
 import { Message } from "telegraf/typings/core/types/typegram";
 
@@ -26,55 +26,67 @@ export class TimeController {
     ctx: TelegrafContext,
     next: TelegrafNext
   ): Promise<void> => {
+    let t = getT(ctx.session.user);
+
     try {
-      let user = ctx.session.user;
+      const userId = String(ctx.from?.id);
+      const user = await this.userService.getUser(userId);
+
       if (!user) {
-        throw new Error(USER_NOT_FOUND);
+        throw new Error(USER_NOT_FOUND(t));
       }
 
-      await ctx.reply(PROMPT_ENTER_TIME);
+      t = getT(user);
+
+      await ctx.reply(PROMPT_ENTER_TIME(t));
 
       await next();
     } catch (err) {
       if (err instanceof Error) {
-        await ctx.reply(ERROR_MESSAGE(err.message));
+        await ctx.reply(ERROR_MESSAGE(t, err.message));
       }
     }
   };
 
   public handleMessage = async (ctx: TelegrafContext): Promise<void> => {
+    let t = getT(ctx.session.user);
+
     try {
-      let user = ctx.session.user;
+      const userId = String(ctx.from?.id);
+      const user = await this.userService.getUser(userId);
+
       if (!user) {
-        throw new Error(USER_NOT_FOUND);
+        throw new Error(USER_NOT_FOUND(t));
       }
+
+      t = getT(ctx.session.user);
 
       const userPrompt = (ctx.message as Message.TextMessage).text;
       if (!isValidTime(userPrompt)) {
-        throw new Error(INVALID_TIME);
+        throw new Error(INVALID_TIME(t));
       }
 
       const time = userPrompt.trim().toLowerCase();
-      user = await this.userService.setTime(user.id, time);
+      const updatedUser = await this.userService.setTime(user.id, time);
 
-      if (!user) {
-        throw new Error(USER_NOT_FOUND);
+      if (!updatedUser) {
+        throw new Error(USER_NOT_FOUND(t));
       }
 
-      ctx.session.user = user;
+      ctx.session.user = updatedUser;
 
-      const message = !!user.location
-        ? SUCCESS_TIME(time)
-        : SUCCESS_TIME_WITH_LOCATION_PROMPT(time);
+      const message = !!updatedUser.location
+        ? SUCCESS_TIME(t, time)
+        : SUCCESS_TIME_WITH_LOCATION_PROMPT(t, time);
 
-      const keyboard = this.mainKeyboard.init(user).oneTime();
+      const keyboard = this.mainKeyboard.init(t, updatedUser).oneTime();
 
       await ctx.reply(message, keyboard);
 
-      await this.forecastJob.update(user);
+      await this.forecastJob.update(updatedUser);
     } catch (err) {
       if (err instanceof Error) {
-        await ctx.reply(ERROR_MESSAGE(err.message));
+        await ctx.reply(ERROR_MESSAGE(t, err.message));
       }
     }
   };

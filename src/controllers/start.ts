@@ -2,6 +2,7 @@ import { ERROR, MESSAGE } from "../constants";
 import { MainKeyboard } from "../keyboards";
 import { UserService } from "../services";
 import { TelegrafContext, TelegrafNext } from "../types";
+import { getT } from "../utils";
 import { inject, injectable } from "inversify";
 
 const { ERROR_MESSAGE, UNABLE_TO_OBTAIN_USER } = ERROR;
@@ -26,13 +27,17 @@ export class StartController {
     ctx: TelegrafContext,
     next: TelegrafNext
   ): Promise<void> => {
+    let t = getT(ctx.session.user);
+
     try {
       const telegrafUser = ctx.from;
       if (!telegrafUser) {
-        throw new Error(UNABLE_TO_OBTAIN_USER);
+        throw new Error(UNABLE_TO_OBTAIN_USER(t));
       }
 
       const user = await this.userService.saveUser(telegrafUser);
+
+      t = getT(user);
       ctx.session.user = user;
 
       const hasLocation = !!user.location;
@@ -41,26 +46,26 @@ export class StartController {
       let message: string;
 
       if (!hasLocation && !hasTime) {
-        message = MISSING_LOCATION_TIME;
+        message = MISSING_LOCATION_TIME(t);
       } else if (!hasLocation) {
-        message = MISSING_LOCATION;
+        message = MISSING_LOCATION(t);
       } else if (!hasTime) {
-        message = MISSING_TIME;
+        message = MISSING_TIME(t);
       } else if (!user.isSubscribed) {
-        message = READY_TO_SUBSCRIBE;
+        message = READY_TO_SUBSCRIBE(t);
       } else {
-        message = ALREADY_SUBSCRIBED;
+        message = ALREADY_SUBSCRIBED(t);
       }
 
-      const keyboard = this.mainKeyboard.init(user).oneTime();
+      const keyboard = this.mainKeyboard.init(t, user).oneTime();
 
-      await ctx.reply(WELCOME);
+      await ctx.reply(WELCOME(t));
       await ctx.reply(message, keyboard);
 
       await next();
     } catch (err) {
       if (err instanceof Error) {
-        await ctx.reply(ERROR_MESSAGE(err.message));
+        await ctx.reply(ERROR_MESSAGE(t, err.message));
       }
     }
   };

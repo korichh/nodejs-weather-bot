@@ -3,7 +3,7 @@ import { ForecastJob } from "../jobs";
 import { MainKeyboard } from "../keyboards";
 import { UserService, WeatherService } from "../services";
 import { TelegrafContext, TelegrafNext } from "../types";
-import { isValidLocation } from "../utils";
+import { getT, isValidLocation } from "../utils";
 import { injectable, inject } from "inversify";
 import { Message } from "telegraf/typings/core/types/typegram";
 
@@ -27,63 +27,78 @@ export class LocationController {
     ctx: TelegrafContext,
     next: TelegrafNext
   ): Promise<void> => {
+    let t = getT(ctx.session.user);
+
     try {
-      let user = ctx.session.user;
+      const userId = String(ctx.from?.id);
+      const user = await this.userService.getUser(userId);
+
       if (!user) {
-        throw new Error(USER_NOT_FOUND);
+        throw new Error(USER_NOT_FOUND(t));
       }
 
-      await ctx.reply(PROMPT_ENTER_LOCATION);
+      t = getT(user);
+
+      await ctx.reply(PROMPT_ENTER_LOCATION(t));
 
       await next();
     } catch (err) {
       if (err instanceof Error) {
-        await ctx.reply(ERROR_MESSAGE(err.message));
+        await ctx.reply(ERROR_MESSAGE(t, err.message));
       }
     }
   };
 
   public handleMessage = async (ctx: TelegrafContext): Promise<void> => {
+    let t = getT(ctx.session.user);
+
     try {
-      let user = ctx.session.user;
+      const userId = String(ctx.from?.id);
+      const user = await this.userService.getUser(userId);
+
       if (!user) {
-        throw new Error(USER_NOT_FOUND);
+        throw new Error(USER_NOT_FOUND(t));
       }
+
+      t = getT(user);
 
       const userPrompt = (ctx.message as Message.TextMessage).text;
       if (!isValidLocation(userPrompt)) {
-        throw new Error(INVALID_LOCATION);
+        throw new Error(INVALID_LOCATION(t));
       }
 
       const location = userPrompt.trim().toLowerCase();
       const locationGeo = await this.weatherService.getGeo(location);
 
       if (!locationGeo) {
-        throw new Error(INVALID_LOCATION);
+        throw new Error(INVALID_LOCATION(t));
       }
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { local_names, ...userLocation } = locationGeo;
-      user = await this.userService.setLocation(user.id, userLocation);
+      const updatedUser = await this.userService.setLocation(
+        user.id,
+        userLocation
+      );
 
-      if (!user) {
-        throw new Error(USER_NOT_FOUND);
+      if (!updatedUser) {
+        throw new Error(USER_NOT_FOUND(t));
       }
 
-      ctx.session.user = user;
+      ctx.session.user = updatedUser;
 
-      const message = !!user.time
-        ? SUCCESS_LOCATION(userLocation.name)
-        : SUCCESS_LOCATION_WITH_TIME_PROMPT(userLocation.name);
+      const message = !!updatedUser.time
+        ? SUCCESS_LOCATION(t, userLocation.name)
+        : SUCCESS_LOCATION_WITH_TIME_PROMPT(t, userLocation.name);
 
-      const keyboard = this.mainKeyboard.init(user).oneTime();
+      const keyboard = this.mainKeyboard.init(t, updatedUser).oneTime();
 
       await ctx.reply(message, keyboard);
 
-      await this.forecastJob.update(user);
+      await this.forecastJob.update(updatedUser);
     } catch (err) {
       if (err instanceof Error) {
-        await ctx.reply(ERROR_MESSAGE(err.message));
+        await ctx.reply(ERROR_MESSAGE(t, err.message));
       }
     }
   };

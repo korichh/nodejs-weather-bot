@@ -13,3 +13,12 @@ export interface User {
   location: UserLocation | null;
   time: string;
 }
+
+export interface UserInfo {
+  firstName: string;
+  username: string;
+  location: string;
+  time: string;
+  languageCode: string;
+  isSubscribed: string;
+}

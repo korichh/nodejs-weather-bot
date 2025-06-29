@@ -6,10 +6,14 @@ import {
   formatForecastTime,
   formatForecastSun,
 } from "./date";
+import { TFunction } from "i18next";
 
 const { WEATHER_REPORT, CITY_REPORT, CITY_REPORT_DAY } = MESSAGE;
 
-const parseForecastEntry = (entry: ForecastEntry): string => {
+const parseForecastEntry = (
+  t: TFunction,
+  entry: ForecastEntry
+): string => {
   const time = formatForecastTime(entry.dt_txt);
 
   const weather =
@@ -25,7 +29,7 @@ const parseForecastEntry = (entry: ForecastEntry): string => {
   const wind = String(entry.wind.speed);
   const pressure = String(entry.main.pressure);
 
-  return WEATHER_REPORT({
+  return WEATHER_REPORT(t, {
     time,
     weather,
     temp,
@@ -39,6 +43,7 @@ const parseForecastEntry = (entry: ForecastEntry): string => {
 };
 
 export const parseForecast = (
+  t: TFunction,
   forecast: WeatherForecast
 ): ParsedForecast => {
   const { city, list } = forecast;
@@ -46,7 +51,7 @@ export const parseForecast = (
   const sunrise = formatForecastSun(city.sunrise, city.timezone);
   const sunset = formatForecastSun(city.sunset, city.timezone);
 
-  const cityMeta = CITY_REPORT({
+  const cityMeta = CITY_REPORT(t, {
     name: city.name,
     country: city.country,
     sunrise,
@@ -65,10 +70,10 @@ export const parseForecast = (
         break;
       }
 
-      dayMap[day] = CITY_REPORT_DAY(day);
+      dayMap[day] = CITY_REPORT_DAY(t, day);
     }
 
-    dayMap[day] += `\n\n\n${parseForecastEntry(entry)}`;
+    dayMap[day] += `\n\n\n${parseForecastEntry(t, entry)}`;
   }
 
   const dayList = Object.values(dayMap);

@@ -1,11 +1,14 @@
+import { I18NEXT } from "../configs";
 import i18next from "i18next";
 import Backend from "i18next-fs-backend";
 
+const { languages } = I18NEXT;
+
 i18next.use(Backend).init({
-  fallbackLng: "en",
-  preload: ["en", "uk"],
+  fallbackLng: languages[0],
+  preload: languages,
   backend: {
-    loadPath: "./locales/{{lng}}.json",
+    loadPath: `${process.cwd()}/locales/{{lng}}.json`,
   },
   interpolation: {
     escapeValue: false,
