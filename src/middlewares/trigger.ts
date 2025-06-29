@@ -1,11 +1,7 @@
-import { BotTrigger, TelegrafContext, TelegrafNext } from "../types";
+import { BotTrigger, TelegrafContext } from "../types";
 
 export const useTrigger = (trigger: BotTrigger) => {
-  return async (
-    ctx: TelegrafContext,
-    next: TelegrafNext
-  ): Promise<void> => {
+  return async (ctx: TelegrafContext): Promise<void> => {
     ctx.session.lastTrigger = trigger;
-    await next();
   };
 };

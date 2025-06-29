@@ -26,8 +26,8 @@ export class CommandRoutes {
     Object.entries(commandRoutes).forEach(([command, handlerFn]) => {
       this.bot.command(
         command,
-        useTrigger(command as BotCommandTrigger),
-        handlerFn
+        handlerFn,
+        useTrigger(command as BotCommandTrigger)
       );
     });
   };

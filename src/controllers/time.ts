@@ -2,7 +2,7 @@ import { ERROR, MESSAGE } from "../constants";
 import { ForecastJob } from "../jobs";
 import { MainKeyboard } from "../keyboards";
 import { UserService } from "../services";
-import { TelegrafContext } from "../types";
+import { TelegrafContext, TelegrafNext } from "../types";
 import { isValidTime } from "../utils";
 import { inject, injectable } from "inversify";
 import { Message } from "telegraf/typings/core/types/typegram";
@@ -22,25 +22,46 @@ export class TimeController {
     @inject(MainKeyboard) private mainKeyboard: MainKeyboard
   ) {}
 
-  public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
-    await ctx.reply(PROMPT_ENTER_TIME);
+  public handleTrigger = async (
+    ctx: TelegrafContext,
+    next: TelegrafNext
+  ): Promise<void> => {
+    try {
+      let user = ctx.session.user;
+      if (!user) {
+        throw new Error(USER_NOT_FOUND);
+      }
+
+      await ctx.reply(PROMPT_ENTER_TIME);
+
+      await next();
+    } catch (err) {
+      if (err instanceof Error) {
+        await ctx.reply(ERROR_MESSAGE(err.message));
+      }
+    }
   };
 
   public handleMessage = async (ctx: TelegrafContext): Promise<void> => {
     try {
-      const userId = String(ctx.from?.id || "");
-      const userPrompt = (ctx.message as Message.TextMessage).text;
+      let user = ctx.session.user;
+      if (!user) {
+        throw new Error(USER_NOT_FOUND);
+      }
 
+      const userPrompt = (ctx.message as Message.TextMessage).text;
       if (!isValidTime(userPrompt)) {
         throw new Error(INVALID_TIME);
       }
 
       const time = userPrompt.trim().toLowerCase();
-      const user = await this.userService.setTime(userId, time);
+      user = await this.userService.setTime(user.id, time);
 
       if (!user) {
         throw new Error(USER_NOT_FOUND);
       }
+
+      ctx.session.user = user;
 
       const message = !!user.location
         ? SUCCESS_TIME(time)

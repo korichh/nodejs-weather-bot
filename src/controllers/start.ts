@@ -1,7 +1,7 @@
 import { ERROR, MESSAGE } from "../constants";
 import { MainKeyboard } from "../keyboards";
 import { UserService } from "../services";
-import { TelegrafContext } from "../types";
+import { TelegrafContext, TelegrafNext } from "../types";
 import { inject, injectable } from "inversify";
 
 const { ERROR_MESSAGE, UNABLE_TO_OBTAIN_USER } = ERROR;
@@ -22,16 +22,19 @@ export class StartController {
     @inject(MainKeyboard) private mainKeyboard: MainKeyboard
   ) {}
 
-  public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
+  public handleTrigger = async (
+    ctx: TelegrafContext,
+    next: TelegrafNext
+  ): Promise<void> => {
     try {
-      await ctx.reply(WELCOME);
-
       const telegrafUser = ctx.from;
       if (!telegrafUser) {
         throw new Error(UNABLE_TO_OBTAIN_USER);
       }
 
       const user = await this.userService.saveUser(telegrafUser);
+      ctx.session.user = user;
+
       const hasLocation = !!user.location;
       const hasTime = !!user.time;
 
@@ -51,7 +54,10 @@ export class StartController {
 
       const keyboard = this.mainKeyboard.init(user).oneTime();
 
+      await ctx.reply(WELCOME);
       await ctx.reply(message, keyboard);
+
+      await next();
     } catch (err) {
       if (err instanceof Error) {
         await ctx.reply(ERROR_MESSAGE(err.message));

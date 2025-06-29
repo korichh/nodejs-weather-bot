@@ -2,7 +2,7 @@ import { ERROR, MESSAGE } from "../constants";
 import { ForecastJob } from "../jobs";
 import { MainKeyboard } from "../keyboards";
 import { UserService, WeatherService } from "../services";
-import { TelegrafContext } from "../types";
+import { TelegrafContext, TelegrafNext } from "../types";
 import { isValidLocation } from "../utils";
 import { injectable, inject } from "inversify";
 import { Message } from "telegraf/typings/core/types/typegram";
@@ -23,15 +23,34 @@ export class LocationController {
     @inject(MainKeyboard) private mainKeyboard: MainKeyboard
   ) {}
 
-  public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
-    await ctx.reply(PROMPT_ENTER_LOCATION);
+  public handleTrigger = async (
+    ctx: TelegrafContext,
+    next: TelegrafNext
+  ): Promise<void> => {
+    try {
+      let user = ctx.session.user;
+      if (!user) {
+        throw new Error(USER_NOT_FOUND);
+      }
+
+      await ctx.reply(PROMPT_ENTER_LOCATION);
+
+      await next();
+    } catch (err) {
+      if (err instanceof Error) {
+        await ctx.reply(ERROR_MESSAGE(err.message));
+      }
+    }
   };
 
   public handleMessage = async (ctx: TelegrafContext): Promise<void> => {
     try {
-      const userId = String(ctx.from?.id || "");
-      const userPrompt = (ctx.message as Message.TextMessage).text;
+      let user = ctx.session.user;
+      if (!user) {
+        throw new Error(USER_NOT_FOUND);
+      }
 
+      const userPrompt = (ctx.message as Message.TextMessage).text;
       if (!isValidLocation(userPrompt)) {
         throw new Error(INVALID_LOCATION);
       }
@@ -45,14 +64,13 @@ export class LocationController {
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { local_names, ...userLocation } = locationGeo;
-      const user = await this.userService.setLocation(
-        userId,
-        userLocation
-      );
+      user = await this.userService.setLocation(user.id, userLocation);
 
       if (!user) {
         throw new Error(USER_NOT_FOUND);
       }
+
+      ctx.session.user = user;
 
       const message = !!user.time
         ? SUCCESS_LOCATION(userLocation.name)

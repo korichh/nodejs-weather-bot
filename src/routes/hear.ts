@@ -39,7 +39,7 @@ export class HearRoutes {
     };
 
     Object.entries(hearRoutes).forEach(([hear, handlerFn]) => {
-      this.bot.hears(hear, useTrigger(hear as BotHearTrigger), handlerFn);
+      this.bot.hears(hear, handlerFn, useTrigger(hear as BotHearTrigger));
     });
   };
 }

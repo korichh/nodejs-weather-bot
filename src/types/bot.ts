@@ -1,7 +1,8 @@
+import { User } from "./user";
 import { Context } from "telegraf";
-import { User } from "telegraf/typings/core/types/typegram";
+import { User as TUser } from "telegraf/typings/core/types/typegram";
 
-export type TelegrafUser = User;
+export type TelegrafUser = TUser;
 
 export type TelegrafNext = () => Promise<void>;
 
@@ -23,6 +24,7 @@ export type BotHandlerFn = (ctx: TelegrafContext) => Promise<void>;
 
 export interface TelegrafSession {
   lastTrigger: BotTrigger | null;
+  user: User | null;
 }
 
 export interface TelegrafContext extends Context {

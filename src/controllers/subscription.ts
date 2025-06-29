@@ -2,7 +2,7 @@ import { ERROR, MESSAGE } from "../constants";
 import { ForecastJob } from "../jobs";
 import { MainKeyboard } from "../keyboards";
 import { UserService } from "../services";
-import { TelegrafContext } from "../types";
+import { TelegrafContext, TelegrafNext } from "../types";
 import { inject, injectable } from "inversify";
 
 const { ERROR_MESSAGE, USER_NOT_FOUND } = ERROR;
@@ -16,14 +16,22 @@ export class SubscriptionController {
     @inject(MainKeyboard) private mainKeyboard: MainKeyboard
   ) {}
 
-  public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
+  public handleTrigger = async (
+    ctx: TelegrafContext,
+    next: TelegrafNext
+  ): Promise<void> => {
     try {
-      const userId = String(ctx.from?.id || "");
-      const user = await this.userService.setSubscribtion(userId);
-
+      let user = ctx.session.user;
       if (!user) {
         throw new Error(USER_NOT_FOUND);
       }
+
+      user = await this.userService.setSubscribtion(user.id);
+      if (!user) {
+        throw new Error(USER_NOT_FOUND);
+      }
+
+      ctx.session.user = user;
 
       const message = user.isSubscribed
         ? SUCCESS_SUBSCRIBE
@@ -34,6 +42,8 @@ export class SubscriptionController {
       await ctx.reply(message, keyboard);
 
       await this.forecastJob.update(user);
+
+      await next();
     } catch (err) {
       if (err instanceof Error) {
         await ctx.reply(ERROR_MESSAGE(err.message));
