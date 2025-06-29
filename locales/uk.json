@@ -27,21 +27,21 @@
 
     "already_subscribed": "✅ Ви вже підписані на щоденні прогнози.",
 
-    "prompt_enter_location": "Введіть назву вашого міста (наприклад, Kharkiv).",
+    "prompt_enter_location": "Введіть назву вашого міста (наприклад: Харків).",
 
     "success_location": "📍 Ваша локація встановлена: {{location}}.",
 
     "success_location_with_time_prompt": "{{success_location}} Також встановіть час сповіщень.",
 
-    "prompt_enter_time": "Введіть бажаний час сповіщень (наприклад, 9:00).",
+    "prompt_enter_time": "Введіть бажаний час сповіщень (наприклад: 9:00).",
 
     "success_time": "⏰ Час сповіщень встановлено: {{time}}.",
 
     "success_time_with_location_prompt": "{{success_time}} Також встановіть локацію.",
 
-    "weather_report": "🕒 *{{time}}*\n\n🌦 Погода: *{{weather}}*\n🌡 Температура: *{{temp}}°C* | Відчувається як: *{{tempFeels}}°C*\n☁️ Хмарність: *{{clouds}}%* | Дощ: *{{rain}}%*\n💧 Вологість: *{{humidity}}%*\n💨 Вітер: *{{wind}} м/с*\n📊 Тиск: *{{pressure}} гПа*",
+    "weather_report": "🕒 *{{time}}*\n\n🌦 Погода: *{{weather}}*\n🌡 Температура: *{{temp}}°C* | Відчувається: *{{tempFeels}}°C*\n☁️ Хмарність: *{{clouds}}%* | Дощ: *{{rain}}%*\n💧 Вологість: *{{humidity}}%*\n💨 Вітер: *{{wind}} м/с*\n📊 Тиск: *{{pressure}} гПа*",
 
-    "city_report": "📍 Погода для: *{{name}}*, *{{country}}*\n\n🌅 Схід сонця: *{{sunrise}}* | 🌇 Захід сонця: *{{sunset}}*",
+    "city_report": "📍 Погода для: *{{name}}*\n\n🌅 Схід сонця: *{{sunrise}}* | 🌇 Захід сонця: *{{sunset}}*",
 
     "city_report_day": "📅 *{{day}}*",
 

@@ -32,7 +32,8 @@ export class WeatherService {
   };
 
   public getForecast = async (
-    cityCoord: ForecastCityCoord
+    cityCoord: ForecastCityCoord,
+    lang: string
   ): Promise<WeatherForecast> => {
     const url = `${WEATHER_API_URL}/data/2.5/forecast`;
     const forecastCnt = WEATHER_CONFIG.maxDaysForecast * 8;
@@ -42,6 +43,7 @@ export class WeatherService {
       lon: String(cityCoord.lon),
       units: "metric",
       cnt: String(forecastCnt),
+      lang,
     });
 
     const response = await Api.get<WeatherForecast>(url, { params });

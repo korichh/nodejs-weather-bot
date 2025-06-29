@@ -6,6 +6,7 @@ import {
   formatForecastTime,
   formatForecastSun,
 } from "./date";
+import { capital } from "./text";
 import { TFunction } from "i18next";
 
 const { WEATHER_REPORT, CITY_REPORT, CITY_REPORT_DAY } = MESSAGE;
@@ -15,12 +16,7 @@ const parseForecastEntry = (
   entry: ForecastEntry
 ): string => {
   const time = formatForecastTime(entry.dt_txt);
-
-  const weather =
-    entry.weather.length > 0
-      ? entry.weather.map((w) => `${w.main} (${w.description})`).join(", ")
-      : "N/A";
-
+  const weather = capital(entry.weather?.[0]?.description) || "N/A";
   const temp = entry.main.temp.toFixed(1);
   const tempFeels = entry.main.feels_like.toFixed(1);
   const clouds = String(entry.clouds.all);
@@ -44,7 +40,8 @@ const parseForecastEntry = (
 
 export const parseForecast = (
   t: TFunction,
-  forecast: WeatherForecast
+  forecast: WeatherForecast,
+  lang: string
 ): ParsedForecast => {
   const { city, list } = forecast;
 
@@ -53,7 +50,6 @@ export const parseForecast = (
 
   const cityMeta = CITY_REPORT(t, {
     name: city.name,
-    country: city.country,
     sunrise,
     sunset,
   });
@@ -61,7 +57,7 @@ export const parseForecast = (
   const dayMap: Record<string, string> = {};
 
   for (const entry of list) {
-    const day = formatForecastDay(entry.dt_txt);
+    const day = formatForecastDay(entry.dt_txt, lang);
 
     if (!dayMap[day]) {
       const daysLength = Object.keys(dayMap).length;

@@ -75,7 +75,11 @@ export class LocationController {
       }
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { local_names, ...userLocation } = locationGeo;
+      const { local_names, country, state, ...userLocation } = locationGeo;
+
+      userLocation.name =
+        local_names[user.languageCode] || locationGeo.name;
+
       const updatedUser = await this.userService.setLocation(
         user.id,
         userLocation

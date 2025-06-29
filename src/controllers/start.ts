@@ -1,3 +1,4 @@
+import { I18NEXT } from "../configs";
 import { ERROR, MESSAGE } from "../constants";
 import { MainKeyboard } from "../keyboards";
 import { UserService } from "../services";
@@ -16,6 +17,8 @@ const {
   ALREADY_SUBSCRIBED,
 } = MESSAGE;
 
+const { languages } = I18NEXT;
+
 @injectable()
 export class StartController {
   public constructor(
@@ -33,6 +36,10 @@ export class StartController {
       const telegrafUser = ctx.from;
       if (!telegrafUser) {
         throw new Error(UNABLE_TO_OBTAIN_USER(t));
+      }
+
+      if (!languages.includes(telegrafUser.language_code || "")) {
+        telegrafUser.language_code = languages[0];
       }
 
       const user = await this.userService.saveUser(telegrafUser);

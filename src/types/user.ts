@@ -1,6 +1,9 @@
 import { WeatherGeo } from "./weather";
 
-export type UserLocation = Omit<WeatherGeo, "local_names">;
+export type UserLocation = Omit<
+  WeatherGeo,
+  "local_names" | "country" | "state"
+>;
 
 export interface User {
   id: string;

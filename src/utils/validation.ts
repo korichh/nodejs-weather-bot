@@ -3,7 +3,8 @@ export const isValidLocation = (location: string | undefined): boolean => {
     return false;
   }
 
-  const locationRegex = /[a-zA-Z]/;
+  const locationRegex =
+    /^[a-zA-Z\u0400-\u04FF\u0500-\u052F\u2DE0-\u2DFF\uA640-\uA69F\s\-']+$/u;
 
   return locationRegex.test(location);
 };

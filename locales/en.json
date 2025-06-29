@@ -41,7 +41,7 @@
 
     "weather_report": "🕒 *{{time}}*\n\n🌦 Weather: *{{weather}}*\n🌡 Temp: *{{temp}}°C* | Feels: *{{tempFeels}}°C*\n☁️ Clouds: *{{clouds}}%* | Rain: *{{rain}}%*\n💧 Humidity: *{{humidity}}%*\n💨 Wind: *{{wind}} m/s*\n📊 Pressure: *{{pressure}} hPa*",
 
-    "city_report": "📍 Weather for: *{{name}}*, *{{country}}*\n\n🌅 Sunrise: *{{sunrise}}* | 🌇 Sunset: *{{sunset}}*",
+    "city_report": "📍 Weather for: *{{name}}*\n\n🌅 Sunrise: *{{sunrise}}* | 🌇 Sunset: *{{sunset}}*",
 
     "city_report_day": "📅 *{{day}}*",
 

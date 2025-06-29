@@ -67,12 +67,21 @@ export class ForecastJob {
     if (!user.location) return;
 
     const extra: ExtraReplyMessage = { parse_mode: "Markdown" };
-    const forecast = await this.weatherService.getForecast({
-      lat: user.location.lat,
-      lon: user.location.lon,
-    });
+    const forecast = await this.weatherService.getForecast(
+      {
+        lat: user.location.lat,
+        lon: user.location.lon,
+      },
+      user.languageCode
+    );
 
-    const { cityMeta, dayList } = parseForecast(t, forecast);
+    forecast.city.name = user.location.name;
+
+    const { cityMeta, dayList } = parseForecast(
+      t,
+      forecast,
+      user.languageCode
+    );
 
     await this.bot.telegram.sendMessage(user.telegramId, cityMeta, extra);
 
