@@ -1,6 +1,7 @@
 import { I18NEXT } from "../configs";
 import { HEAR } from "../constants";
 import {
+  LanguageController,
   LocationController,
   ProfileController,
   SubscriptionController,
@@ -24,6 +25,8 @@ export class HearRoutes {
     @inject(TimeController) private timeController: TimeController,
     @inject(ProfileController)
     private profileController: ProfileController,
+    @inject(LanguageController)
+    private languageController: LanguageController,
     @inject(SubscriptionController)
     private subscriptionController: SubscriptionController
   ) {}
@@ -42,6 +45,8 @@ export class HearRoutes {
           this.timeController.handleTrigger,
         [HEAR[BotHearTrigger.GET_PROFILE](t)]:
           this.profileController.handleTrigger,
+        [HEAR[BotHearTrigger.LANGUAGE](t)]:
+          this.languageController.handleTrigger,
         [HEAR[BotHearTrigger.SUBSCRIBE](t)]:
           this.subscriptionController.handleTrigger,
         [HEAR[BotHearTrigger.UNSUBSCRIBE](t)]:

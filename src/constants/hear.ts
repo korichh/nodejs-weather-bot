@@ -8,6 +8,8 @@ export const HEAR = {
 
   GET_PROFILE: (t: TFunction): string => t("hear.get_profile"),
 
+  LANGUAGE: (t: TFunction): string => t("hear.language"),
+
   SUBSCRIBE: (t: TFunction): string => t("hear.subscribe"),
 
   UNSUBSCRIBE: (t: TFunction): string => t("hear.unsubscribe"),

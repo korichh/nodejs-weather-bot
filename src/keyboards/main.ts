@@ -9,7 +9,7 @@ import { ReplyKeyboardMarkup } from "telegraf/typings/core/types/typegram";
 export class MainKeyboard {
   public init = (
     t: TFunction,
-    user?: User
+    user: User | null
   ): Markup.Markup<ReplyKeyboardMarkup> => {
     const keyboard: string[][] = [];
 
@@ -20,13 +20,12 @@ export class MainKeyboard {
 
     keyboard.push([HEAR[BotHearTrigger.GET_PROFILE](t)]);
 
-    if (user) {
-      keyboard.push([
-        user.isSubscribed
-          ? HEAR[BotHearTrigger.UNSUBSCRIBE](t)
-          : HEAR[BotHearTrigger.SUBSCRIBE](t),
-      ]);
-    }
+    keyboard.push([
+      HEAR[BotHearTrigger.LANGUAGE](t),
+      user?.isSubscribed
+        ? HEAR[BotHearTrigger.UNSUBSCRIBE](t)
+        : HEAR[BotHearTrigger.SUBSCRIBE](t),
+    ]);
 
     return Markup.keyboard(keyboard).resize();
   };

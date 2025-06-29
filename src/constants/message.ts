@@ -67,4 +67,7 @@ export const MESSAGE = {
 
   USER_INFO: (t: TFunction, userInfo: UserInfo): string =>
     t("message.user_info", { ...userInfo }),
+
+  SUCCESS_LANGUAGE: (t: TFunction): string =>
+    t("message.success_language"),
 };

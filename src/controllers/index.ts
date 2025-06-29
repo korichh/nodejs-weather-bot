@@ -1,3 +1,4 @@
+export * from "./language";
 export * from "./location";
 export * from "./profile";
 export * from "./start";

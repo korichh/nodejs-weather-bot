@@ -1,4 +1,5 @@
 import {
+  LanguageController,
   LocationController,
   ProfileController,
   StartController,
@@ -11,4 +12,5 @@ container.bind(LocationController).toSelf().inSingletonScope();
 container.bind(StartController).toSelf().inSingletonScope();
 container.bind(TimeController).toSelf().inSingletonScope();
 container.bind(ProfileController).toSelf().inSingletonScope();
+container.bind(LanguageController).toSelf().inSingletonScope();
 container.bind(SubscriptionController).toSelf().inSingletonScope();

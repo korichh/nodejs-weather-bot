@@ -7,7 +7,6 @@ import { getT } from "../utils";
 import { inject, injectable } from "inversify";
 
 const { ERROR_MESSAGE, UNABLE_TO_OBTAIN_USER } = ERROR;
-
 const {
   WELCOME,
   MISSING_LOCATION_TIME,

@@ -49,7 +49,9 @@
 
     "success_unsubscribe": "🔴 Ви відписалися від оновлень погоди.",
 
-    "user_info": "👤 *Профіль*\n\n🔠 Ім'я: *{{firstName}}*\n🔗 Нікнейм: *@{{username}}*\n📍 Локація: *{{location}}*\n⏰ Час сповіщень: *{{time}}*\n🌐 Мова: *{{languageCode}}*\n📬 Підписка: *{{isSubscribed}}*"
+    "user_info": "👤 *Профіль*\n\n🔠 Ім'я: *{{firstName}}*\n🔗 Нікнейм: *@{{username}}*\n📍 Локація: *{{location}}*\n⏰ Час сповіщень: *{{time}}*\n🌐 Мова: *{{languageCode}}*\n📬 Підписка: *{{isSubscribed}}*",
+
+    "success_language": "✅ Мову успішно змінено."
   },
   "hear": {
     "set_location": "📍 Встановити локацію",
@@ -57,6 +59,8 @@
     "set_notification_time": "⏰ Встановити час",
 
     "get_profile": "👤 Профіль",
+
+    "language": "🌐 Мова",
 
     "subscribe": "🟢 Підписатися",
 
