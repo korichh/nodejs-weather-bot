@@ -1,0 +1,13 @@
+{
+  "error": {
+    "error_message": "❌ Error: {{message}}",
+
+    "unable_to_obtain_user": "Unable to obtain user information.",
+
+    "user_not_found": "User is not registered. Please use the /start command.",
+
+    "invalid_location": "Invalid location. Please retry with a valid location name.",
+
+    "invalid_time": "Invalid time. Please retry with a valid time string."
+  }
+}
