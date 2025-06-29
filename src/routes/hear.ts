@@ -1,3 +1,4 @@
+import { HEAR } from "../constants";
 import {
   LocationController,
   ProfileController,
@@ -25,13 +26,15 @@ export class HearRoutes {
 
   public init = async (): Promise<void> => {
     const hearRoutes: BotHearRoutes = {
-      [BotHearTrigger.SET_LOCATION]: this.locationController.handleTrigger,
-      [BotHearTrigger.SET_NOTIFICATION_TIME]:
+      [HEAR[BotHearTrigger.SET_LOCATION]]:
+        this.locationController.handleTrigger,
+      [HEAR[BotHearTrigger.SET_NOTIFICATION_TIME]]:
         this.timeController.handleTrigger,
-      [BotHearTrigger.GET_PROFILE]: this.profileController.handleTrigger,
-      [BotHearTrigger.SUBSCRIBE]:
+      [HEAR[BotHearTrigger.GET_PROFILE]]:
+        this.profileController.handleTrigger,
+      [HEAR[BotHearTrigger.SUBSCRIBE]]:
         this.subscriptionController.handleTrigger,
-      [BotHearTrigger.UNSUBSCRIBE]:
+      [HEAR[BotHearTrigger.UNSUBSCRIBE]]:
         this.subscriptionController.handleTrigger,
     };
 

@@ -1,3 +1,4 @@
+import { HEAR } from "../constants";
 import { BotHearTrigger, User } from "../types";
 import { injectable } from "inversify";
 import { Markup } from "telegraf";
@@ -9,17 +10,17 @@ export class MainKeyboard {
     const keyboard: string[][] = [];
 
     keyboard.push([
-      BotHearTrigger.SET_LOCATION,
-      BotHearTrigger.SET_NOTIFICATION_TIME,
+      HEAR[BotHearTrigger.SET_LOCATION],
+      HEAR[BotHearTrigger.SET_NOTIFICATION_TIME],
     ]);
 
-    keyboard.push([BotHearTrigger.GET_PROFILE]);
+    keyboard.push([HEAR[BotHearTrigger.GET_PROFILE]]);
 
     if (user) {
       keyboard.push([
         user.isSubscribed
-          ? BotHearTrigger.UNSUBSCRIBE
-          : BotHearTrigger.SUBSCRIBE,
+          ? HEAR[BotHearTrigger.UNSUBSCRIBE]
+          : HEAR[BotHearTrigger.SUBSCRIBE],
       ]);
     }
 

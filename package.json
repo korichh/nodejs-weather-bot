@@ -18,6 +18,7 @@
     "cron": "^4.3.1",
     "dotenv": "^16.4.7",
     "geo-tz": "^8.1.4",
+    "i18next": "^25.2.1",
     "inversify": "^7.5.4",
     "luxon": "^3.6.1",
     "reflect-metadata": "^0.2.2",

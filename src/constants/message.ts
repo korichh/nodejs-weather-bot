@@ -59,9 +59,9 @@ export const MESSAGE = {
     `📍 Location: ${
       user.location
         ? `*${user.location.name}, ${user.location.state}, ${user.location.country}*`
-        : "unset"
+        : "N/A"
     }\n` +
-    `⏰ Notification time: *${user.time ? user.time : "unset"}*\n` +
+    `⏰ Notification time: *${user.time ? user.time : "N/A"}*\n` +
     `🌐 Language: *${user.languageCode}*\n` +
     `📬 Subscribed: *${user.isSubscribed ? "Yes" : "No"}*`,
 };

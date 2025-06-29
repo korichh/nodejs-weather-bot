@@ -3,7 +3,7 @@ import { LoggerLevel } from "../types";
 export const logger = {
   log(message: string, level: LoggerLevel = LoggerLevel.INFO): void {
     // eslint-disable-next-line no-console
-    console[level](`[APP] ${message}`);
+    console[level](message);
   },
   info(msg: string): void {
     this.log(msg);

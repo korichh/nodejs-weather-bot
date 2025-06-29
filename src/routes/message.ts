@@ -1,3 +1,4 @@
+import { HEAR } from "../constants";
 import { LocationController, TimeController } from "../controllers";
 import {
   BotHearTrigger,
@@ -20,8 +21,9 @@ export class MessageRoutes {
 
   public init = async (): Promise<void> => {
     const messageRoutes: BotMessageRoutes = {
-      [BotHearTrigger.SET_LOCATION]: this.locationController.handleMessage,
-      [BotHearTrigger.SET_NOTIFICATION_TIME]:
+      [HEAR[BotHearTrigger.SET_LOCATION]]:
+        this.locationController.handleMessage,
+      [HEAR[BotHearTrigger.SET_NOTIFICATION_TIME]]:
         this.timeController.handleMessage,
     };
 

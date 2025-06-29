@@ -6,15 +6,15 @@ export type TelegrafUser = User;
 export type TelegrafNext = () => Promise<void>;
 
 export enum BotCommandTrigger {
-  START = "start",
+  START = "START",
 }
 
 export enum BotHearTrigger {
-  SET_LOCATION = "📍 Set location",
-  SET_NOTIFICATION_TIME = "⏰ Set time",
-  GET_PROFILE = "👤 Get profile",
-  SUBSCRIBE = "🟢 Subscribe",
-  UNSUBSCRIBE = "🔴 Unsubscribe",
+  SET_LOCATION = "SET_LOCATION",
+  SET_NOTIFICATION_TIME = "SET_NOTIFICATION_TIME",
+  GET_PROFILE = "GET_PROFILE",
+  SUBSCRIBE = "SUBSCRIBE",
+  UNSUBSCRIBE = "UNSUBSCRIBE",
 }
 
 export type BotTrigger = BotCommandTrigger | BotHearTrigger;

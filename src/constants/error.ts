@@ -3,9 +3,6 @@ export const ERROR = {
 
   DATABASE_NOT_INIT: "Database is not initialized.",
 
-  NOT_FOUND: (entity: string = ""): string =>
-    entity ? `${entity} is not found.` : "Not found.",
-
   UNABLE_TO_OBTAIN_USER: "Unable to obtain user information.",
 
   INVALID_LOCATION:
