@@ -1,4 +1,5 @@
 import {
+  HelperController,
   LanguageController,
   LocationController,
   ProfileController,
@@ -8,6 +9,7 @@ import {
 } from "../../../controllers";
 import { container } from "../instance";
 
+container.bind(HelperController).toSelf().inSingletonScope();
 container.bind(LocationController).toSelf().inSingletonScope();
 container.bind(StartController).toSelf().inSingletonScope();
 container.bind(TimeController).toSelf().inSingletonScope();

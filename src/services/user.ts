@@ -2,6 +2,7 @@ import { I18NEXT } from "../configs";
 import { UserModel } from "../models";
 import { TelegrafUser, UserLocation } from "../types";
 import { User } from "../types";
+import { validatelanguage } from "../utils";
 import { inject, injectable } from "inversify";
 
 const { languages } = I18NEXT;
@@ -11,6 +12,8 @@ export class UserService {
   public constructor(@inject(UserModel) private userModel: UserModel) {}
 
   public saveUser = async (telegrafUser: TelegrafUser): Promise<User> => {
+    validatelanguage(telegrafUser);
+
     let user = await this.userModel.get(String(telegrafUser.id));
 
     if (!user) {
@@ -22,7 +25,7 @@ export class UserService {
         languageCode: telegrafUser.language_code || "",
         isSubscribed: true,
         location: null,
-        time: "9:00",
+        time: "",
       });
     }
 

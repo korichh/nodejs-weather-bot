@@ -1,12 +1,8 @@
-import { I18NEXT } from "../configs";
-import { ERROR, MESSAGE } from "../constants";
-import { MainKeyboard } from "../keyboards";
-import { UserService } from "../services";
+import { MESSAGE } from "../constants";
 import { TelegrafContext, TelegrafNext } from "../types";
-import { getT } from "../utils";
+import { HelperController } from "./helper";
 import { inject, injectable } from "inversify";
 
-const { ERROR_MESSAGE, UNABLE_TO_OBTAIN_USER } = ERROR;
 const {
   WELCOME,
   MISSING_LOCATION_TIME,
@@ -16,46 +12,27 @@ const {
   ALREADY_SUBSCRIBED,
 } = MESSAGE;
 
-const { languages } = I18NEXT;
-
 @injectable()
 export class StartController {
   public constructor(
-    @inject(UserService) private userService: UserService,
-    @inject(MainKeyboard) private mainKeyboard: MainKeyboard
+    @inject(HelperController) private helperController: HelperController
   ) {}
 
   public handleTrigger = async (
     ctx: TelegrafContext,
     next: TelegrafNext
   ): Promise<void> => {
-    let t = getT(ctx.session.user);
-
     try {
-      const telegrafUser = ctx.from;
-      if (!telegrafUser) {
-        throw new Error(UNABLE_TO_OBTAIN_USER(t));
-      }
-
-      if (!languages.includes(telegrafUser.language_code || "")) {
-        telegrafUser.language_code = languages[0];
-      }
-
-      const user = await this.userService.saveUser(telegrafUser);
-
-      t = getT(user);
-      ctx.session.user = user;
-
-      const hasLocation = !!user.location;
-      const hasTime = !!user.time;
+      const { t, user, keyboard } =
+        await this.helperController.initContext(ctx, true);
 
       let message: string;
 
-      if (!hasLocation && !hasTime) {
+      if (!user.location && !user.time) {
         message = MISSING_LOCATION_TIME(t);
-      } else if (!hasLocation) {
+      } else if (!user.location) {
         message = MISSING_LOCATION(t);
-      } else if (!hasTime) {
+      } else if (!user.time) {
         message = MISSING_TIME(t);
       } else if (!user.isSubscribed) {
         message = READY_TO_SUBSCRIBE(t);
@@ -63,16 +40,13 @@ export class StartController {
         message = ALREADY_SUBSCRIBED(t);
       }
 
-      const keyboard = this.mainKeyboard.init(t, user).oneTime();
-
       await ctx.reply(WELCOME(t));
+
       await ctx.reply(message, keyboard);
 
       await next();
     } catch (err) {
-      if (err instanceof Error) {
-        await ctx.reply(ERROR_MESSAGE(t, err.message));
-      }
+      await this.helperController.handleError(ctx, err, false);
     }
   };
 }
