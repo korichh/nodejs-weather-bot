@@ -1,42 +1,35 @@
-import { ERROR, MESSAGE } from "../constants";
-import { MainKeyboard } from "../keyboards";
-import { UserService } from "../services";
-import { TelegrafContext } from "../types";
+import { MESSAGE } from "../constants";
+import { TelegrafContext, TelegrafNext } from "../types";
+import { parseUser } from "../utils";
+import { HelperController } from "./helper";
 import { inject, injectable } from "inversify";
-import { ExtraReplyMessage } from "telegraf/typings/telegram-types";
 
-const { ERROR_MESSAGE, USER_NOT_FOUND } = ERROR;
 const { USER_INFO } = MESSAGE;
 
 @injectable()
 export class ProfileController {
   public constructor(
-    @inject(UserService) private userService: UserService,
-    @inject(MainKeyboard) private mainKeyboard: MainKeyboard
+    @inject(HelperController) private helperController: HelperController
   ) {}
 
-  public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
+  public handleTrigger = async (
+    ctx: TelegrafContext,
+    next: TelegrafNext
+  ): Promise<void> => {
     try {
-      const userId = String(ctx.from?.id || "");
-      const user = await this.userService.getUser(userId);
+      let { t, user, keyboard } =
+        await this.helperController.initContext(ctx);
 
-      if (!user) {
-        throw new Error(USER_NOT_FOUND);
-      }
+      const userInfo = parseUser(t, user);
 
-      const message = USER_INFO(user);
-
-      const keyboard = this.mainKeyboard.init(user).oneTime();
-      const extra: ExtraReplyMessage = {
+      await ctx.reply(USER_INFO(t, userInfo), {
         parse_mode: "Markdown",
         reply_markup: keyboard.reply_markup,
-      };
+      });
 
-      await ctx.reply(message, extra);
+      await next();
     } catch (err) {
-      if (err instanceof Error) {
-        await ctx.reply(ERROR_MESSAGE(err.message));
-      }
+      await this.helperController.handleError(ctx, err);
     }
   };
 }

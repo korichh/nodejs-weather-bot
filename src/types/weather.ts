@@ -98,7 +98,6 @@ export interface WeatherReport {
 
 export interface CityReport {
   name: string;
-  country: string;
   sunrise: string;
   sunset: string;
 }

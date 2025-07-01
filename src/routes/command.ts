@@ -1,3 +1,4 @@
+import { COMMAND } from "../constants";
 import { StartController } from "../controllers";
 import { useTrigger } from "../middlewares";
 import {
@@ -18,14 +19,15 @@ export class CommandRoutes {
 
   public init = async (): Promise<void> => {
     const commandRoutes: BotCommandRoutes = {
-      [BotCommandTrigger.START]: this.startController.handleTrigger,
+      [COMMAND[BotCommandTrigger.START]]:
+        this.startController.handleTrigger,
     };
 
     Object.entries(commandRoutes).forEach(([command, handlerFn]) => {
       this.bot.command(
         command,
-        useTrigger(command as BotCommandTrigger),
-        handlerFn
+        handlerFn,
+        useTrigger(command as BotCommandTrigger)
       );
     });
   };

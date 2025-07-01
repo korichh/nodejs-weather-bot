@@ -1,0 +1,69 @@
+{
+  "error": {
+    "error_message": "❌ Error: {{message}}",
+
+    "unable_to_obtain_user": "Unable to obtain user information.",
+
+    "user_not_found": "User is not registered. Please use the /start command to continue.",
+
+    "invalid_location": "Invalid location. Please retry with a valid location name.",
+
+    "invalid_time": "Invalid time. Please retry with a valid time string."
+  },
+  "message": {
+    "welcome": "👋 Welcome to the weather bot!",
+
+    "yes": "Yes",
+
+    "no": "No",
+
+    "missing_location_time": "📍⏰ Please set your location and notification time.",
+
+    "missing_location": "📍 Please set your location.",
+
+    "missing_time": "⏰ Please set your notification time.",
+
+    "ready_to_subscribe": "📬 Your setup is complete. Please subscribe to begin receiving weather updates.",
+
+    "already_subscribed": "✅ You're already subscribed to daily forecasts.",
+
+    "prompt_enter_location": "Please, enter your city (e.g. Kharkiv).",
+
+    "success_location": "📍 Your location has been set to: {{location}}.",
+
+    "success_location_with_time_prompt": "{{success_location}} Please set the notification time as well.",
+
+    "prompt_enter_time": "Please, enter your desired notification time (e.g. 9:00).",
+
+    "success_time": "⏰ Your notification time has been set to: {{time}}.",
+
+    "success_time_with_location_prompt": "{{success_time}} Please set the location as well.",
+
+    "weather_report": "🕒 *{{time}}*\n\n🌦 Weather: *{{weather}}*\n🌡 Temp: *{{temp}}°C* | Feels: *{{tempFeels}}°C*\n☁️ Clouds: *{{clouds}}%* | Rain: *{{rain}}%*\n💧 Humidity: *{{humidity}}%*\n💨 Wind: *{{wind}} m/s*\n📊 Pressure: *{{pressure}} hPa*",
+
+    "city_report": "📍 Weather for: *{{name}}*\n\n🌅 Sunrise: *{{sunrise}}* | 🌇 Sunset: *{{sunset}}*",
+
+    "city_report_day": "📅 *{{day}}*",
+
+    "success_subscribe": "🟢 Subscription successful. You'll now receive daily weather forecasts.",
+
+    "success_unsubscribe": "🔴 You've unsubscribed from weather updates.",
+
+    "user_info": "👤 *User Profile*\n\n🔠 Name: *{{firstName}}*\n🔗 Username: *@{{username}}*\n📍 Location: *{{location}}*\n⏰ Notification time: *{{time}}*\n🌐 Language: *{{languageCode}}*\n📬 Subscribed: *{{isSubscribed}}*",
+
+    "success_language": "✅ Language has been changed successfully."
+  },
+  "hear": {
+    "set_location": "📍 Set location",
+
+    "set_notification_time": "⏰ Set time",
+
+    "get_profile": "👤 Get profile",
+
+    "language": "🌐 Language",
+
+    "subscribe": "🟢 Subscribe",
+
+    "unsubscribe": "🔴 Unsubscribe"
+  }
+}

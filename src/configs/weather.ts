@@ -1,3 +1,3 @@
 export const WEATHER_CONFIG = {
-  maxDaysForecast: 3,
+  maxDaysForecast: 2,
 };

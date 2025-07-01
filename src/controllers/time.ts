@@ -2,8 +2,9 @@ import { ERROR, MESSAGE } from "../constants";
 import { ForecastJob } from "../jobs";
 import { MainKeyboard } from "../keyboards";
 import { UserService } from "../services";
-import { TelegrafContext } from "../types";
-import { isValidTime } from "../utils";
+import { TelegrafContext, TelegrafNext } from "../types";
+import { getT, isValidTime, validateString } from "../utils";
+import { HelperController } from "./helper";
 import { inject, injectable } from "inversify";
 import { Message } from "telegraf/typings/core/types/typegram";
 
@@ -17,44 +18,58 @@ const {
 @injectable()
 export class TimeController {
   public constructor(
+    @inject(HelperController) private helperController: HelperController,
     @inject(UserService) private userService: UserService,
     @inject(ForecastJob) private forecastJob: ForecastJob,
     @inject(MainKeyboard) private mainKeyboard: MainKeyboard
   ) {}
 
-  public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
-    await ctx.reply(PROMPT_ENTER_TIME);
+  public handleTrigger = async (
+    ctx: TelegrafContext,
+    next: TelegrafNext
+  ): Promise<void> => {
+    try {
+      const { t } = await this.helperController.initContext(ctx);
+
+      await ctx.reply(PROMPT_ENTER_TIME(t));
+
+      await next();
+    } catch (err) {
+      await this.helperController.handleError(ctx, err, false);
+    }
   };
 
   public handleMessage = async (ctx: TelegrafContext): Promise<void> => {
     try {
-      const userId = String(ctx.from?.id || "");
-      const userPrompt = (ctx.message as Message.TextMessage).text;
+      let { t, user, keyboard } =
+        await this.helperController.initContext(ctx);
 
-      if (!isValidTime(userPrompt)) {
-        throw new Error(INVALID_TIME);
+      const timeText = (ctx.message as Message.TextMessage).text;
+      if (!isValidTime(timeText)) {
+        throw new Error(INVALID_TIME(t));
       }
 
-      const time = userPrompt.trim().toLowerCase();
-      const user = await this.userService.setTime(userId, time);
+      const time = validateString(timeText);
 
-      if (!user) {
-        throw new Error(USER_NOT_FOUND);
+      const updatedUser = await this.userService.setTime(user.id, time);
+      if (!updatedUser) {
+        throw new Error(USER_NOT_FOUND(t));
       }
 
-      const message = !!user.location
-        ? SUCCESS_TIME(time)
-        : SUCCESS_TIME_WITH_LOCATION_PROMPT(time);
+      ({ t, user, keyboard } = await this.helperController.updateContext(
+        ctx,
+        updatedUser
+      ));
 
-      const keyboard = this.mainKeyboard.init(user).oneTime();
+      const message = !user.location
+        ? SUCCESS_TIME_WITH_LOCATION_PROMPT(t, time)
+        : SUCCESS_TIME(t, time);
 
       await ctx.reply(message, keyboard);
 
       await this.forecastJob.update(user);
     } catch (err) {
-      if (err instanceof Error) {
-        await ctx.reply(ERROR_MESSAGE(err.message));
-      }
+      await this.helperController.handleError(ctx, err);
     }
   };
 }

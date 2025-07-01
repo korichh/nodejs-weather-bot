@@ -1,7 +1,10 @@
 import { DateTime } from "luxon";
 
-export const formatForecastDay = (dateTimeStr: string): string => {
-  const dt = DateTime.fromSQL(dateTimeStr);
+export const formatForecastDay = (
+  dateTimeStr: string,
+  lang: string
+): string => {
+  const dt = DateTime.fromSQL(dateTimeStr).setLocale(lang);
 
   return dt.toFormat("EEE, MMM d");
 };

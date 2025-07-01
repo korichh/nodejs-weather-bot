@@ -6,17 +6,17 @@ import {
   formatForecastTime,
   formatForecastSun,
 } from "./date";
+import { capital } from "./text";
+import { TFunction } from "i18next";
 
 const { WEATHER_REPORT, CITY_REPORT, CITY_REPORT_DAY } = MESSAGE;
 
-const parseForecastEntry = (entry: ForecastEntry): string => {
+const parseForecastEntry = (
+  t: TFunction,
+  entry: ForecastEntry
+): string => {
   const time = formatForecastTime(entry.dt_txt);
-
-  const weather =
-    entry.weather.length > 0
-      ? entry.weather.map((w) => `${w.main} (${w.description})`).join(", ")
-      : "N/A";
-
+  const weather = capital(entry.weather?.[0]?.description) || "N/A";
   const temp = entry.main.temp.toFixed(1);
   const tempFeels = entry.main.feels_like.toFixed(1);
   const clouds = String(entry.clouds.all);
@@ -25,7 +25,7 @@ const parseForecastEntry = (entry: ForecastEntry): string => {
   const wind = String(entry.wind.speed);
   const pressure = String(entry.main.pressure);
 
-  return WEATHER_REPORT({
+  return WEATHER_REPORT(t, {
     time,
     weather,
     temp,
@@ -39,16 +39,17 @@ const parseForecastEntry = (entry: ForecastEntry): string => {
 };
 
 export const parseForecast = (
-  forecast: WeatherForecast
+  t: TFunction,
+  forecast: WeatherForecast,
+  lang: string
 ): ParsedForecast => {
   const { city, list } = forecast;
 
   const sunrise = formatForecastSun(city.sunrise, city.timezone);
   const sunset = formatForecastSun(city.sunset, city.timezone);
 
-  const cityMeta = CITY_REPORT({
+  const cityMeta = CITY_REPORT(t, {
     name: city.name,
-    country: city.country,
     sunrise,
     sunset,
   });
@@ -56,7 +57,7 @@ export const parseForecast = (
   const dayMap: Record<string, string> = {};
 
   for (const entry of list) {
-    const day = formatForecastDay(entry.dt_txt);
+    const day = formatForecastDay(entry.dt_txt, lang);
 
     if (!dayMap[day]) {
       const daysLength = Object.keys(dayMap).length;
@@ -65,10 +66,10 @@ export const parseForecast = (
         break;
       }
 
-      dayMap[day] = CITY_REPORT_DAY(day);
+      dayMap[day] = CITY_REPORT_DAY(t, day);
     }
 
-    dayMap[day] += `\n\n\n${parseForecastEntry(entry)}`;
+    dayMap[day] += `\n\n\n${parseForecastEntry(t, entry)}`;
   }
 
   const dayList = Object.values(dayMap);

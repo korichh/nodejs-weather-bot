@@ -1,9 +1,10 @@
 import { App, container } from "./app";
-import { ENV } from "./constants";
+import { ENV, SYSTEM } from "./constants";
 import { logger } from "./utils";
 import "reflect-metadata";
 
 const { NODE_ENV } = ENV;
+const { APP_START, APP_STOP, APP_MESSAGE, APP_ERROR } = SYSTEM;
 
 (async (): Promise<void> => {
   try {
@@ -12,11 +13,11 @@ const { NODE_ENV } = ENV;
     await app.init();
 
     await app.start({}, () => {
-      logger.info("Application started successfully");
+      logger.info(APP_MESSAGE(APP_START));
 
       const stopApp = (reason: string): void => {
         app.stop(reason, () => {
-          logger.info("Application stopped successfully");
+          logger.info(APP_MESSAGE(APP_STOP));
         });
       };
 
@@ -27,7 +28,7 @@ const { NODE_ENV } = ENV;
     if (err instanceof Error) {
       const message = NODE_ENV === "development" ? err.stack : err.message;
 
-      logger.error(`[Error] ${message}`);
+      logger.error(APP_ERROR(message));
     }
   }
 })();

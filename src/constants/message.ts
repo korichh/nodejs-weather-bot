@@ -1,67 +1,73 @@
-import { WeatherReport, CityReport, User } from "../types";
+import { WeatherReport, CityReport, UserInfo } from "../types";
+import { TFunction } from "i18next";
 
 export const MESSAGE = {
-  WELCOME: "👋 Welcome to the Weather Bot!",
+  WELCOME: (t: TFunction): string => t("message.welcome"),
 
-  MISSING_LOCATION_TIME:
-    "📍⏰ Please set your location and notification time.",
+  YES: (t: TFunction): string => t("message.yes"),
 
-  MISSING_LOCATION: "📍 Please set your location.",
+  NO: (t: TFunction): string => t("message.no"),
 
-  MISSING_TIME: "⏰ Please set your notification time.",
+  MISSING_LOCATION_TIME: (t: TFunction): string =>
+    t("message.missing_location_time"),
 
-  READY_TO_SUBSCRIBE:
-    "📬 Your setup is complete. Please subscribe to begin receiving weather updates.",
+  MISSING_LOCATION: (t: TFunction): string =>
+    t("message.missing_location"),
 
-  ALREADY_SUBSCRIBED: "✅ You're already subscribed to daily forecasts.",
+  MISSING_TIME: (t: TFunction): string => t("message.missing_time"),
 
-  PROMPT_ENTER_LOCATION: "Please, enter your city (e.g. Kharkiv).",
+  READY_TO_SUBSCRIBE: (t: TFunction): string =>
+    t("message.ready_to_subscribe"),
 
-  SUCCESS_LOCATION: (location: string): string =>
-    `📍 Your location has been set to: ${location}.`,
+  ALREADY_SUBSCRIBED: (t: TFunction): string =>
+    t("message.already_subscribed"),
 
-  SUCCESS_LOCATION_WITH_TIME_PROMPT: (location: string): string =>
-    `${MESSAGE.SUCCESS_LOCATION(location)} Please set the notification time as well.`,
+  PROMPT_ENTER_LOCATION: (t: TFunction): string =>
+    t("message.prompt_enter_location"),
 
-  PROMPT_ENTER_TIME:
-    "Please, enter your desired notification time (e.g. 9:00).",
+  SUCCESS_LOCATION: (t: TFunction, location: string): string =>
+    t("message.success_location", { location }),
 
-  SUCCESS_TIME: (time: string): string =>
-    `⏰ Your notification time has been set to: ${time}.`,
+  SUCCESS_LOCATION_WITH_TIME_PROMPT: (
+    t: TFunction,
+    location: string
+  ): string =>
+    t("message.success_location_with_time_prompt", {
+      success_location: t("message.success_location", { location }),
+    }),
 
-  SUCCESS_TIME_WITH_LOCATION_PROMPT: (time: string): string =>
-    `${MESSAGE.SUCCESS_TIME(time)} Please set the location as well.`,
+  PROMPT_ENTER_TIME: (t: TFunction): string =>
+    t("message.prompt_enter_time"),
 
-  WEATHER_REPORT: (params: WeatherReport): string =>
-    `🕒 *${params.time}*\n\n` +
-    `🌦 Weather: *${params.weather}*\n` +
-    `🌡 Temp: *${params.temp}°C* | Feels: *${params.tempFeels}°C*\n` +
-    `☁️ Clouds: *${params.clouds}%* | Rain: *${params.rain}%*\n` +
-    `💧 Humidity: *${params.humidity}%*\n` +
-    `💨 Wind: *${params.wind} m/s*\n` +
-    `📊 Pressure: *${params.pressure} hPa*`,
+  SUCCESS_TIME: (t: TFunction, time: string): string =>
+    t("message.success_time", { time }),
 
-  CITY_REPORT: (params: CityReport): string =>
-    `📍 Weather for: *${params.name}*, *${params.country}*\n\n` +
-    `🌅 Sunrise: *${params.sunrise}* | 🌇 Sunset: *${params.sunset}*`,
+  SUCCESS_TIME_WITH_LOCATION_PROMPT: (
+    t: TFunction,
+    time: string
+  ): string =>
+    t("message.success_time_with_location_prompt", {
+      success_time: t("message.success_time", { time }),
+    }),
 
-  CITY_REPORT_DAY: (day: string): string => `📅 *${day}*`,
+  WEATHER_REPORT: (t: TFunction, weatherReport: WeatherReport): string =>
+    t("message.weather_report", { ...weatherReport }),
 
-  SUCCESS_SUBSCRIBE:
-    "🟢 Subscription successful. You'll now receive daily weather forecasts.",
+  CITY_REPORT: (t: TFunction, cityReport: CityReport): string =>
+    t("message.city_report", { ...cityReport }),
 
-  SUCCESS_UNSUBSCRIBE: "🔴 You've unsubscribed from weather updates.",
+  CITY_REPORT_DAY: (t: TFunction, day: string): string =>
+    t("message.city_report_day", { day }),
 
-  USER_INFO: (user: User): string =>
-    "👤 *User Profile*\n\n" +
-    `🔠 Name: *${user.firstName}*\n` +
-    `🔗 Username: *@${user.username}*\n` +
-    `📍 Location: ${
-      user.location
-        ? `*${user.location.name}, ${user.location.state}, ${user.location.country}*`
-        : "unset"
-    }\n` +
-    `⏰ Notification time: *${user.time ? user.time : "unset"}*\n` +
-    `🌐 Language: *${user.languageCode}*\n` +
-    `📬 Subscribed: *${user.isSubscribed ? "Yes" : "No"}*`,
+  SUCCESS_SUBSCRIBE: (t: TFunction): string =>
+    t("message.success_subscribe"),
+
+  SUCCESS_UNSUBSCRIBE: (t: TFunction): string =>
+    t("message.success_unsubscribe"),
+
+  USER_INFO: (t: TFunction, userInfo: UserInfo): string =>
+    t("message.user_info", { ...userInfo }),
+
+  SUCCESS_LANGUAGE: (t: TFunction): string =>
+    t("message.success_language"),
 };

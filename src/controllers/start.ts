@@ -1,10 +1,7 @@
-import { ERROR, MESSAGE } from "../constants";
-import { MainKeyboard } from "../keyboards";
-import { UserService } from "../services";
-import { TelegrafContext } from "../types";
+import { MESSAGE } from "../constants";
+import { TelegrafContext, TelegrafNext } from "../types";
+import { HelperController } from "./helper";
 import { inject, injectable } from "inversify";
-
-const { ERROR_MESSAGE, UNABLE_TO_OBTAIN_USER } = ERROR;
 
 const {
   WELCOME,
@@ -18,44 +15,38 @@ const {
 @injectable()
 export class StartController {
   public constructor(
-    @inject(UserService) private userService: UserService,
-    @inject(MainKeyboard) private mainKeyboard: MainKeyboard
+    @inject(HelperController) private helperController: HelperController
   ) {}
 
-  public handleTrigger = async (ctx: TelegrafContext): Promise<void> => {
+  public handleTrigger = async (
+    ctx: TelegrafContext,
+    next: TelegrafNext
+  ): Promise<void> => {
     try {
-      await ctx.reply(WELCOME);
-
-      const telegrafUser = ctx.from;
-      if (!telegrafUser) {
-        throw new Error(UNABLE_TO_OBTAIN_USER);
-      }
-
-      const user = await this.userService.saveUser(telegrafUser);
-      const hasLocation = !!user.location;
-      const hasTime = !!user.time;
+      const { t, user, keyboard } =
+        await this.helperController.initContext(ctx, true);
 
       let message: string;
 
-      if (!hasLocation && !hasTime) {
-        message = MISSING_LOCATION_TIME;
-      } else if (!hasLocation) {
-        message = MISSING_LOCATION;
-      } else if (!hasTime) {
-        message = MISSING_TIME;
+      if (!user.location && !user.time) {
+        message = MISSING_LOCATION_TIME(t);
+      } else if (!user.location) {
+        message = MISSING_LOCATION(t);
+      } else if (!user.time) {
+        message = MISSING_TIME(t);
       } else if (!user.isSubscribed) {
-        message = READY_TO_SUBSCRIBE;
+        message = READY_TO_SUBSCRIBE(t);
       } else {
-        message = ALREADY_SUBSCRIBED;
+        message = ALREADY_SUBSCRIBED(t);
       }
 
-      const keyboard = this.mainKeyboard.init(user).oneTime();
+      await ctx.reply(WELCOME(t));
 
       await ctx.reply(message, keyboard);
+
+      await next();
     } catch (err) {
-      if (err instanceof Error) {
-        await ctx.reply(ERROR_MESSAGE(err.message));
-      }
+      await this.helperController.handleError(ctx, err, false);
     }
   };
 }

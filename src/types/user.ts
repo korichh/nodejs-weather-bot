@@ -1,6 +1,9 @@
 import { WeatherGeo } from "./weather";
 
-export type UserLocation = Omit<WeatherGeo, "local_names">;
+export type UserLocation = Omit<
+  WeatherGeo,
+  "local_names" | "country" | "state"
+>;
 
 export interface User {
   id: string;
@@ -12,4 +15,13 @@ export interface User {
   isSubscribed: boolean;
   location: UserLocation | null;
   time: string;
+}
+
+export interface UserInfo {
+  firstName: string;
+  username: string;
+  location: string;
+  time: string;
+  languageCode: string;
+  isSubscribed: string;
 }

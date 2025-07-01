@@ -6,10 +6,10 @@ import { HelperController } from "./helper";
 import { inject, injectable } from "inversify";
 
 const { USER_NOT_FOUND } = ERROR;
-const { SUCCESS_SUBSCRIBE, SUCCESS_UNSUBSCRIBE } = MESSAGE;
+const { SUCCESS_LANGUAGE } = MESSAGE;
 
 @injectable()
-export class SubscriptionController {
+export class LanguageController {
   public constructor(
     @inject(HelperController) private helperController: HelperController,
     @inject(UserService) private userService: UserService,
@@ -24,7 +24,7 @@ export class SubscriptionController {
       let { t, user, keyboard } =
         await this.helperController.initContext(ctx);
 
-      const updatedUser = await this.userService.setSubscribtion(user.id);
+      const updatedUser = await this.userService.setLanguage(user.id);
       if (!updatedUser) {
         throw new Error(USER_NOT_FOUND(t));
       }
@@ -34,11 +34,7 @@ export class SubscriptionController {
         updatedUser
       ));
 
-      const message = user.isSubscribed
-        ? SUCCESS_SUBSCRIBE(t)
-        : SUCCESS_UNSUBSCRIBE(t);
-
-      await ctx.reply(message, keyboard);
+      await ctx.reply(SUCCESS_LANGUAGE(t), keyboard);
 
       await this.forecastJob.update(user);
 
