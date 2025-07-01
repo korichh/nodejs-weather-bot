@@ -1,4 +1,4 @@
-import { WeatherReport, CityReport } from "../types";
+import { WeatherReport, CityReport, User } from "../types";
 
 export const MESSAGE = {
   WELCOME: "👋 Welcome to the Weather Bot!",
@@ -51,4 +51,17 @@ export const MESSAGE = {
     "🟢 Subscription successful. You'll now receive daily weather forecasts.",
 
   SUCCESS_UNSUBSCRIBE: "🔴 You've unsubscribed from weather updates.",
+
+  USER_INFO: (user: User): string =>
+    "👤 *User Profile*\n\n" +
+    `🔠 Name: *${user.firstName}*\n` +
+    `🔗 Username: *@${user.username}*\n` +
+    `📍 Location: ${
+      user.location
+        ? `*${user.location.name}, ${user.location.state}, ${user.location.country}*`
+        : "unset"
+    }\n` +
+    `⏰ Notification time: *${user.time ? user.time : "unset"}*\n` +
+    `🌐 Language: *${user.languageCode}*\n` +
+    `📬 Subscribed: *${user.isSubscribed ? "Yes" : "No"}*`,
 };

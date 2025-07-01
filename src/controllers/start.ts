@@ -31,7 +31,7 @@ export class StartController {
         throw new Error(UNABLE_TO_OBTAIN_USER);
       }
 
-      const user = await this.userService.getUser(telegrafUser);
+      const user = await this.userService.saveUser(telegrafUser);
       const hasLocation = !!user.location;
       const hasTime = !!user.time;
 

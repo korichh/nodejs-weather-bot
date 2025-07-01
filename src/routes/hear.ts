@@ -1,5 +1,6 @@
 import {
   LocationController,
+  ProfileController,
   SubscriptionController,
   TimeController,
 } from "../controllers";
@@ -16,6 +17,8 @@ export class HearRoutes {
     @inject(LocationController)
     private locationController: LocationController,
     @inject(TimeController) private timeController: TimeController,
+    @inject(ProfileController)
+    private profileController: ProfileController,
     @inject(SubscriptionController)
     private subscriptionController: SubscriptionController
   ) {}
@@ -25,6 +28,7 @@ export class HearRoutes {
       [BotHearTrigger.SET_LOCATION]: this.locationController.handleTrigger,
       [BotHearTrigger.SET_NOTIFICATION_TIME]:
         this.timeController.handleTrigger,
+      [BotHearTrigger.GET_PROFILE]: this.profileController.handleTrigger,
       [BotHearTrigger.SUBSCRIBE]:
         this.subscriptionController.handleTrigger,
       [BotHearTrigger.UNSUBSCRIBE]:
