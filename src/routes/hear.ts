@@ -29,7 +29,7 @@ export class HearRoutes {
     private languageController: LanguageController,
     @inject(SubscriptionController)
     private subscriptionController: SubscriptionController
-  ) {}
+  ) { }
 
   public init = async (): Promise<void> => {
     let hearRoutes: BotHearRoutes = {};
