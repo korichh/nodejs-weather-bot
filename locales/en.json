@@ -51,10 +51,14 @@
 
     "user_info": "👤 *User Profile*\n\n🔠 Name: *{{firstName}}*\n🔗 Username: *@{{username}}*\n📍 Location: *{{location}}*\n⏰ Notification time: *{{time}}*\n🌐 Language: *{{languageCode}}*\n📬 Subscribed: *{{isSubscribed}}*",
 
-    "success_language": "✅ Language has been changed successfully."
+    "success_language": "✅ Language has been changed successfully.",
+
+    "no_location": "Location not set, please set it."
   },
   "hear": {
     "set_location": "📍 Set location",
+
+    "get_weather": "☀️ Get weather",
 
     "set_notification_time": "⏰ Set time",
 

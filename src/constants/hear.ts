@@ -3,6 +3,8 @@ import { TFunction } from "i18next";
 export const HEAR = {
   SET_LOCATION: (t: TFunction): string => t("hear.set_location"),
 
+  GET_WEATHER: (t: TFunction): string => t("hear.get_weather"),
+
   SET_NOTIFICATION_TIME: (t: TFunction): string =>
     t("hear.set_notification_time"),
 

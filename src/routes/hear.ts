@@ -6,6 +6,7 @@ import {
   ProfileController,
   SubscriptionController,
   TimeController,
+  WeatherController,
 } from "../controllers";
 import { useTrigger } from "../middlewares";
 import { BotHearTrigger, BotHearRoutes, TelegrafContext } from "../types";
@@ -22,7 +23,10 @@ export class HearRoutes {
     private bot: Telegraf<TelegrafContext>,
     @inject(LocationController)
     private locationController: LocationController,
-    @inject(TimeController) private timeController: TimeController,
+    @inject(TimeController)
+    private timeController: TimeController,
+    @inject(WeatherController)
+    private WeatherController: WeatherController,
     @inject(ProfileController)
     private profileController: ProfileController,
     @inject(LanguageController)
@@ -43,6 +47,8 @@ export class HearRoutes {
           this.locationController.handleTrigger,
         [HEAR[BotHearTrigger.SET_NOTIFICATION_TIME](t)]:
           this.timeController.handleTrigger,
+        [HEAR[BotHearTrigger.GET_WEATHER](t)]:
+          this.WeatherController.handleTrigger,
         [HEAR[BotHearTrigger.GET_PROFILE](t)]:
           this.profileController.handleTrigger,
         [HEAR[BotHearTrigger.LANGUAGE](t)]:
