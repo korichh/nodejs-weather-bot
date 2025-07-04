@@ -1,4 +1,3 @@
-import { container } from "@app/container/instance";
 import {
   HelperController,
   LanguageController,
@@ -8,6 +7,7 @@ import {
   SubscriptionController,
   TimeController,
 } from "@controllers";
+import { container } from "@app/container/instance";
 
 container.bind(HelperController).toSelf().inSingletonScope();
 container.bind(LocationController).toSelf().inSingletonScope();
