@@ -1,4 +1,4 @@
-import { WeatherReport, CityReport, UserInfo } from "../types";
+import { WeatherReport, CityReport, UserInfo } from "@types";
 import { TFunction } from "i18next";
 
 export const MESSAGE = {

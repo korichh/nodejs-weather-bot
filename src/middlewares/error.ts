@@ -1,6 +1,6 @@
-import { ENV, SYSTEM } from "../constants";
-import { TelegrafContext } from "../types";
-import { logger } from "../utils";
+import { ENV, SYSTEM } from "@constants";
+import { TelegrafContext } from "@types";
+import { logger } from "@utils";
 
 const { NODE_ENV } = ENV;
 const { BOT_ERROR, JOB_ERROR } = SYSTEM;

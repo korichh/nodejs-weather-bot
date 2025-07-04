@@ -1,4 +1,4 @@
-import { I18NEXT } from "../configs";
+import { I18NEXT } from "@configs";
 import i18next from "i18next";
 import Backend from "i18next-fs-backend";
 

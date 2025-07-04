@@ -108,11 +108,63 @@
 
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+
+    "baseUrl": "./",
+    "paths": {
+      "telegraf": ["node_modules/telegraf"],
+
+      "telegraf/*": ["node_modules/telegraf/*"],
+
+      "@/*": ["src/*"],
+
+      "@app": ["src/app/index.ts"],
+      "@app/*": ["src/app/*"],
+
+      "@configs": ["src/configs/index.ts"],
+      "@configs/*": ["src/configs/*"],
+
+      "@constants": ["src/constants/index.ts"],
+      "@constants/*": ["src/constants/*"],
+
+      "@controllers": ["src/controllers/index.ts"],
+      "@controllers/*": ["src/controllers/*"],
+
+      "@jobs": ["src/jobs/index.ts"],
+      "@jobs/*": ["src/jobs/*"],
+
+      "@keyboards": ["src/keyboards/index.ts"],
+      "@keyboards/*": ["src/keyboards/*"],
+
+      "@lib": ["src/lib/index.ts"],
+      "@lib/*": ["src/lib/*"],
+
+      "@middlewares": ["src/middlewares/index.ts"],
+      "@middlewares/*": ["src/middlewares/*"],
+
+      "@models": ["src/models/index.ts"],
+      "@models/*": ["src/models/*"],
+
+      "@routes": ["src/routes/index.ts"],
+      "@routes/*": ["src/routes/*"],
+
+      "@service": ["src/service/index.ts"],
+      "@service/*": ["src/service/*"],
+
+      "@services": ["src/services/index.ts"],
+      "@services/*": ["src/services/*"],
+
+      "@types": ["src/types/index.ts"],
+      "@types/*": ["src/types/*"],
+
+      "@utils": ["src/utils/index.ts"],
+      "@utils/*": ["src/utils/*"]
+    }
   },
   "include": ["./src/**/*"],
   "exclude": [],
   "ts-node": {
-    "swc": true
+    "swc": true,
+    "require": ["tsconfig-paths/register"]
   }
 }

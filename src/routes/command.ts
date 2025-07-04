@@ -1,11 +1,11 @@
-import { COMMAND } from "../constants";
-import { StartController } from "../controllers";
-import { useTrigger } from "../middlewares";
+import { COMMAND } from "@constants";
+import { StartController } from "@controllers";
+import { useTrigger } from "@middlewares";
 import {
   BotCommandTrigger,
   BotCommandRoutes,
   TelegrafContext,
-} from "../types";
+} from "@types";
 import { inject, injectable } from "inversify";
 import { Telegraf } from "telegraf";
 

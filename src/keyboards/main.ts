@@ -1,5 +1,5 @@
-import { HEAR } from "../constants";
-import { BotHearTrigger, User } from "../types";
+import { HEAR } from "@constants";
+import { BotHearTrigger, User } from "@types";
 import { TFunction } from "i18next";
 import { injectable } from "inversify";
 import { Markup } from "telegraf";

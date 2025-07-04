@@ -1,5 +1,5 @@
-import { Database } from "../lib";
-import { DatabaseData, User } from "../types";
+import { Database } from "@lib";
+import { DatabaseData, User } from "@types";
 import { inject, injectable } from "inversify";
 import { v4 as uuidv4 } from "uuid";
 

@@ -1,8 +1,8 @@
-import { ERROR } from "../constants";
-import { MainKeyboard } from "../keyboards";
-import { UserService } from "../services";
-import { TelegrafContext, User } from "../types";
-import { getT } from "../utils";
+import { ERROR } from "@constants";
+import { MainKeyboard } from "@keyboards";
+import { UserService } from "@services";
+import { TelegrafContext, User } from "@types";
+import { getT } from "@utils";
 import { TFunction } from "i18next";
 import { inject, injectable } from "inversify";
 import { Markup } from "telegraf";

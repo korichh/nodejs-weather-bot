@@ -1,4 +1,4 @@
-import { TelegrafSession } from "../types";
+import { TelegrafSession } from "@types";
 import { session } from "telegraf";
 
 export const useSession = session({

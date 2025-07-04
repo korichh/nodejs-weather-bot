@@ -1,5 +1,5 @@
-import { i18next } from "../lib";
-import { User } from "../types";
+import { i18next } from "@lib";
+import { User } from "@types";
 import { TFunction } from "i18next";
 
 export const getT = (user: User | null): TFunction => {

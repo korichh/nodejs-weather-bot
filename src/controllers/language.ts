@@ -1,8 +1,8 @@
-import { ERROR, MESSAGE } from "../constants";
-import { ForecastJob } from "../jobs";
-import { UserService } from "../services";
-import { TelegrafContext, TelegrafNext } from "../types";
 import { HelperController } from "./helper";
+import { ERROR, MESSAGE } from "@constants";
+import { ForecastJob } from "@jobs";
+import { UserService } from "@services";
+import { TelegrafContext, TelegrafNext } from "@types";
 import { inject, injectable } from "inversify";
 
 const { USER_NOT_FOUND } = ERROR;

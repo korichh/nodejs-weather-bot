@@ -1,11 +1,7 @@
-import { I18NEXT } from "../configs";
-import { HEAR } from "../constants";
-import { LocationController, TimeController } from "../controllers";
-import {
-  BotHearTrigger,
-  BotMessageRoutes,
-  TelegrafContext,
-} from "../types";
+import { I18NEXT } from "@configs";
+import { HEAR } from "@constants";
+import { LocationController, TimeController } from "@controllers";
+import { BotHearTrigger, BotMessageRoutes, TelegrafContext } from "@types";
 import { getFixedT } from "i18next";
 import { inject, injectable } from "inversify";
 import { Telegraf } from "telegraf";

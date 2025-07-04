@@ -1,8 +1,8 @@
-import { I18NEXT } from "../configs";
-import { UserModel } from "../models";
-import { TelegrafUser, UserLocation } from "../types";
-import { User } from "../types";
-import { validatelanguage } from "../utils";
+import { I18NEXT } from "@configs";
+import { UserModel } from "@models";
+import { TelegrafUser, UserLocation } from "@types";
+import { User } from "@types";
+import { validatelanguage } from "@utils";
 import { inject, injectable } from "inversify";
 
 const { languages } = I18NEXT;

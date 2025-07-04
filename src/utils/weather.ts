@@ -1,12 +1,12 @@
-import { WEATHER_CONFIG } from "../configs";
-import { MESSAGE } from "../constants";
-import { WeatherForecast, ForecastEntry, ParsedForecast } from "../types";
 import {
   formatForecastDay,
   formatForecastTime,
   formatForecastSun,
 } from "./date";
 import { capital } from "./text";
+import { WEATHER_CONFIG } from "@configs";
+import { MESSAGE } from "@constants";
+import { WeatherForecast, ForecastEntry, ParsedForecast } from "@types";
 import { TFunction } from "i18next";
 
 const { WEATHER_REPORT, CITY_REPORT, CITY_REPORT_DAY } = MESSAGE;

@@ -1,13 +1,13 @@
-import { ERROR, MESSAGE } from "../constants";
-import { ForecastJob } from "../jobs";
-import { UserService, WeatherService } from "../services";
-import { TelegrafContext, TelegrafNext } from "../types";
+import { HelperController } from "./helper";
+import { ERROR, MESSAGE } from "@constants";
+import { ForecastJob } from "@jobs";
+import { UserService, WeatherService } from "@services";
+import { TelegrafContext, TelegrafNext } from "@types";
 import {
   isValidLocation,
   parseUserLocation,
   validateString,
-} from "../utils";
-import { HelperController } from "./helper";
+} from "@utils";
 import { injectable, inject } from "inversify";
 import { Message } from "telegraf/typings/core/types/typegram";
 

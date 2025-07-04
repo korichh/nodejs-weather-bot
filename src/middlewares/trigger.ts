@@ -1,4 +1,4 @@
-import { BotTrigger, TelegrafContext } from "../types";
+import { BotTrigger, TelegrafContext } from "@types";
 
 export const useTrigger = (trigger: BotTrigger) => {
   return async (ctx: TelegrafContext): Promise<void> => {

@@ -1,5 +1,5 @@
-import { I18NEXT } from "../configs";
-import { TelegrafUser } from "../types";
+import { I18NEXT } from "@configs";
+import { TelegrafUser } from "@types";
 
 const { languages } = I18NEXT;
 

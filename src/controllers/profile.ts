@@ -1,7 +1,7 @@
-import { MESSAGE } from "../constants";
-import { TelegrafContext, TelegrafNext } from "../types";
-import { parseUser } from "../utils";
 import { HelperController } from "./helper";
+import { MESSAGE } from "@constants";
+import { TelegrafContext, TelegrafNext } from "@types";
+import { parseUser } from "@utils";
 import { inject, injectable } from "inversify";
 
 const { USER_INFO } = MESSAGE;
