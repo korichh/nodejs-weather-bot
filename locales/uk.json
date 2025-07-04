@@ -51,9 +51,7 @@
 
     "user_info": "👤 *Профіль*\n\n🔠 Ім'я: *{{firstName}}*\n🔗 Нікнейм: *@{{username}}*\n📍 Локація: *{{location}}*\n⏰ Час сповіщень: *{{time}}*\n🌐 Мова: *{{languageCode}}*\n📬 Підписка: *{{isSubscribed}}*",
 
-    "success_language": "✅ Мову успішно змінено.",
-
-    "no_location": "Не встановлена локація, будь ласка встановіть."
+    "success_language": "✅ Мову успішно змінено."
   },
   "hear": {
     "set_location": "📍 Встановити локацію",
