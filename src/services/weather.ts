@@ -1,9 +1,10 @@
-import { WEATHER_CONFIG } from "../configs";
-import { ENV } from "../constants";
-import { Api } from "../lib";
-import { ForecastCityCoord, WeatherForecast, WeatherGeo } from "../types";
 import { find as findTz } from "geo-tz";
 import { injectable } from "inversify";
+
+import { WEATHER_CONFIG } from "@/configs";
+import { ENV } from "@/constants";
+import { Api } from "@/lib";
+import { ForecastCityCoord, WeatherForecast, WeatherGeo } from "@/types";
 
 const { WEATHER_API_URL, WEATHER_API_KEY } = ENV;
 

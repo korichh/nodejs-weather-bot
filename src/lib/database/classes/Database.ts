@@ -1,11 +1,13 @@
-import { DATABASE } from "../../../configs";
-import { Mutex } from "./Mutex";
 import * as fss from "fs";
 import * as fs from "fs/promises";
 import { injectable } from "inversify";
 import * as path from "path";
 
-const { dbDir, dbName } = DATABASE;
+import { Mutex } from "./Mutex";
+
+import { DATABASE_CONFIG } from "@/configs";
+
+const { dbDir, dbName } = DATABASE_CONFIG;
 
 @injectable()
 export class Database {

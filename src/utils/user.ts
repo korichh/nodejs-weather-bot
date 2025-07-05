@@ -1,6 +1,7 @@
-import { MESSAGE } from "../constants";
-import { User, UserInfo, UserLocation, WeatherGeo } from "../types";
 import { TFunction } from "i18next";
+
+import { MESSAGE } from "@/constants";
+import { User, UserInfo, UserLocation, WeatherGeo } from "@/types";
 
 const { YES, NO } = MESSAGE;
 

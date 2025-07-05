@@ -1,7 +1,9 @@
-import { ENV } from "../../../constants";
-import { TelegrafContext } from "../../../types";
-import { container } from "../instance";
 import { Telegraf } from "telegraf";
+
+import { container } from "../instance";
+
+import { ENV } from "@/constants";
+import { TelegrafContext } from "@/types";
 
 const { TELEGRAM_BOT_TOKEN } = ENV;
 

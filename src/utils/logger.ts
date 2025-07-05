@@ -1,4 +1,4 @@
-import { LoggerLevel } from "../types";
+import { LoggerLevel } from "@/types";
 
 export const logger = {
   log(message: string, level: LoggerLevel = LoggerLevel.INFO): void {

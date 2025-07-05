@@ -1,6 +1,7 @@
-import { User } from "./user";
 import { Context } from "telegraf";
 import { User as TUser } from "telegraf/typings/core/types/typegram";
+
+import { User } from "./user";
 
 export type TelegrafUser = TUser;
 

@@ -1,9 +1,11 @@
-import { ERROR, MESSAGE } from "../constants";
-import { ForecastJob } from "../jobs";
-import { UserService } from "../services";
-import { TelegrafContext, TelegrafNext } from "../types";
-import { HelperController } from "./helper";
 import { inject, injectable } from "inversify";
+
+import { HelperController } from "./helper";
+
+import { ERROR, MESSAGE } from "@/constants";
+import { ForecastJob } from "@/jobs";
+import { UserService } from "@/services";
+import { TelegrafContext, TelegrafNext } from "@/types";
 
 const { USER_NOT_FOUND } = ERROR;
 const { SUCCESS_LANGUAGE } = MESSAGE;

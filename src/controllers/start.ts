@@ -1,7 +1,9 @@
-import { MESSAGE } from "../constants";
-import { TelegrafContext, TelegrafNext } from "../types";
-import { HelperController } from "./helper";
 import { inject, injectable } from "inversify";
+
+import { HelperController } from "./helper";
+
+import { MESSAGE } from "@/constants";
+import { TelegrafContext, TelegrafNext } from "@/types";
 
 const {
   WELCOME,

@@ -1,14 +1,16 @@
-import { ERROR, MESSAGE } from "../constants";
-import { ForecastJob } from "../jobs";
-import { MainKeyboard } from "../keyboards";
-import { UserService } from "../services";
-import { TelegrafContext, TelegrafNext } from "../types";
-import { getT, isValidTime, validateString } from "../utils";
-import { HelperController } from "./helper";
 import { inject, injectable } from "inversify";
 import { Message } from "telegraf/typings/core/types/typegram";
 
-const { ERROR_MESSAGE, INVALID_TIME, USER_NOT_FOUND } = ERROR;
+import { HelperController } from "./helper";
+
+import { ERROR, MESSAGE } from "@/constants";
+import { ForecastJob } from "@/jobs";
+import { MainKeyboard } from "@/keyboards";
+import { UserService } from "@/services";
+import { TelegrafContext, TelegrafNext } from "@/types";
+import { isValidTime, validateString } from "@/utils";
+
+const { INVALID_TIME, USER_NOT_FOUND } = ERROR;
 const {
   PROMPT_ENTER_TIME,
   SUCCESS_TIME,

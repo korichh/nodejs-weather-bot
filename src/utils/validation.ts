@@ -1,7 +1,7 @@
-import { I18NEXT } from "../configs";
-import { TelegrafUser } from "../types";
+import { I18NEXT_CONFIG } from "@/configs";
+import { TelegrafUser } from "@/types";
 
-const { languages } = I18NEXT;
+const { languages } = I18NEXT_CONFIG;
 
 export const isValidLocation = (location: string | undefined): boolean => {
   if (!location || location.length < 2) {

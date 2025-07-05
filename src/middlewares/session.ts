@@ -1,5 +1,6 @@
-import { TelegrafSession } from "../types";
 import { session } from "telegraf";
+
+import { TelegrafSession } from "@/types";
 
 export const useSession = session({
   defaultSession: (): TelegrafSession => ({

@@ -1,13 +1,13 @@
-import { useJobErrorHandler } from "../middlewares";
-import { WeatherService } from "../services";
-import { TelegrafContext, User } from "../types";
-import { getT } from "../utils";
-import { parseForecast } from "../utils/weather";
 import { CronJob } from "cron";
 import { TFunction } from "i18next";
 import { inject, injectable } from "inversify";
 import { Telegraf } from "telegraf";
 import { ExtraReplyMessage } from "telegraf/typings/telegram-types";
+
+import { useJobErrorHandler } from "@/middlewares";
+import { WeatherService } from "@/services";
+import { TelegrafContext, User } from "@/types";
+import { getT, parseForecast } from "@/utils";
 
 @injectable()
 export class ForecastJob {

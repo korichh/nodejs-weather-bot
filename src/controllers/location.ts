@@ -1,15 +1,17 @@
-import { ERROR, MESSAGE } from "../constants";
-import { ForecastJob } from "../jobs";
-import { UserService, WeatherService } from "../services";
-import { TelegrafContext, TelegrafNext } from "../types";
+import { inject, injectable } from "inversify";
+import { Message } from "telegraf/typings/core/types/typegram";
+
+import { HelperController } from "./helper";
+
+import { ERROR, MESSAGE } from "@/constants";
+import { ForecastJob } from "@/jobs";
+import { UserService, WeatherService } from "@/services";
+import { TelegrafContext, TelegrafNext } from "@/types";
 import {
   isValidLocation,
   parseUserLocation,
   validateString,
-} from "../utils";
-import { HelperController } from "./helper";
-import { injectable, inject } from "inversify";
-import { Message } from "telegraf/typings/core/types/typegram";
+} from "@/utils";
 
 const { INVALID_LOCATION, USER_NOT_FOUND } = ERROR;
 const {
