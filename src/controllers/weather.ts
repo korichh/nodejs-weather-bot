@@ -1,11 +1,12 @@
-import { MESSAGE } from "../constants";
-import { MainKeyboard } from "../keyboards";
-import { WeatherService } from "../services";
-import { TelegrafContext, TelegrafNext } from "../types";
-import { parseForecast } from "../utils";
-import { HelperController } from "./helper";
 import { inject, injectable } from "inversify";
 import { ExtraReplyMessage } from "telegraf/typings/telegram-types";
+
+import { HelperController } from "./helper";
+
+import { MESSAGE } from "@/constants";
+import { WeatherService } from "@/services";
+import { TelegrafContext, TelegrafNext } from "@/types";
+import { parseForecast } from "@/utils";
 
 const { MISSING_LOCATION } = MESSAGE;
 
@@ -13,8 +14,7 @@ const { MISSING_LOCATION } = MESSAGE;
 export class WeatherController {
   public constructor(
     @inject(HelperController) private helperController: HelperController,
-    @inject(WeatherService) private weatherService: WeatherService,
-    @inject(MainKeyboard) private mainKeyboard: MainKeyboard
+    @inject(WeatherService) private weatherService: WeatherService
   ) {}
 
   public handleTrigger = async (

@@ -1,4 +1,5 @@
-import { Database } from "../../../lib";
 import { container } from "../instance";
+
+import { Database } from "@/lib";
 
 container.bind(Database).toSelf().inSingletonScope();

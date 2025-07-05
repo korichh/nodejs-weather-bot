@@ -1,8 +1,9 @@
-import { I18NEXT } from "../configs";
 import i18next from "i18next";
 import Backend from "i18next-fs-backend";
 
-const { languages } = I18NEXT;
+import { I18NEXT_CONFIG } from "@/configs";
+
+const { languages } = I18NEXT_CONFIG;
 
 i18next.use(Backend).init({
   fallbackLng: languages[0],

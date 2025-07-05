@@ -1,11 +1,12 @@
-import { ForecastJob } from "../../jobs";
-import { Database } from "../../lib";
-import { useErrorHandler, useSession } from "../../middlewares";
-import { UserModel } from "../../models";
-import { CommandRoutes, HearRoutes, MessageRoutes } from "../../routes";
-import { TelegrafContext } from "../../types";
 import { inject, injectable } from "inversify";
 import { Telegraf } from "telegraf";
+
+import { ForecastJob } from "@/jobs";
+import { Database } from "@/lib";
+import { useErrorHandler, useSession } from "@/middlewares";
+import { UserModel } from "@/models";
+import { CommandRoutes, HearRoutes, MessageRoutes } from "@/routes";
+import { TelegrafContext } from "@/types";
 
 @injectable()
 export class App {

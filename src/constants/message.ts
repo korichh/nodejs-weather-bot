@@ -1,5 +1,6 @@
-import { WeatherReport, CityReport, UserInfo } from "../types";
 import { TFunction } from "i18next";
+
+import { CityReport, UserInfo, WeatherReport } from "@/types";
 
 export const MESSAGE = {
   WELCOME: (t: TFunction): string => t("message.welcome"),

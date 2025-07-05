@@ -1,3 +1,3 @@
-export const I18NEXT = {
+export const I18NEXT_CONFIG = {
   languages: ["en", "uk"],
 };

@@ -1,5 +1,6 @@
-import { CommandRoutes, HearRoutes, MessageRoutes } from "../../../routes";
 import { container } from "../instance";
+
+import { CommandRoutes, HearRoutes, MessageRoutes } from "@/routes";
 
 container.bind(CommandRoutes).toSelf().inSingletonScope();
 container.bind(HearRoutes).toSelf().inSingletonScope();

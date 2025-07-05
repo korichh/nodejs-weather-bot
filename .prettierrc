@@ -1,6 +1,9 @@
 {
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": ["^[a-zA-Z]", "^[./]", "^@/(.*)$"],
+  "importOrderSeparation": true,
   "importOrderParserPlugins": ["typescript", "decorators-legacy"],
+  "importOrderSortSpecifiers": true,
   "semi": true,
   "singleQuote": false,
   "trailingComma": "es5",
@@ -9,5 +12,5 @@
   "useTabs": false,
   "bracketSpacing": true,
   "arrowParens": "always",
-  "endOfLine": "lf"
+  "endOfLine": "crlf"
 }

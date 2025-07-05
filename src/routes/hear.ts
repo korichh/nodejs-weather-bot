@@ -1,5 +1,9 @@
-import { I18NEXT } from "../configs";
-import { HEAR } from "../constants";
+import { getFixedT } from "i18next";
+import { inject, injectable } from "inversify";
+import { Telegraf } from "telegraf";
+
+import { I18NEXT_CONFIG } from "@/configs";
+import { HEAR } from "@/constants";
 import {
   LanguageController,
   LocationController,
@@ -7,14 +11,11 @@ import {
   SubscriptionController,
   TimeController,
   WeatherController,
-} from "../controllers";
-import { useTrigger } from "../middlewares";
-import { BotHearTrigger, BotHearRoutes, TelegrafContext } from "../types";
-import { getFixedT } from "i18next";
-import { inject, injectable } from "inversify";
-import { Telegraf } from "telegraf";
+} from "@/controllers";
+import { useTrigger } from "@/middlewares";
+import { BotHearRoutes, BotHearTrigger, TelegrafContext } from "@/types";
 
-const { languages } = I18NEXT;
+const { languages } = I18NEXT_CONFIG;
 
 @injectable()
 export class HearRoutes {
@@ -23,8 +24,7 @@ export class HearRoutes {
     private bot: Telegraf<TelegrafContext>,
     @inject(LocationController)
     private locationController: LocationController,
-    @inject(TimeController)
-    private timeController: TimeController,
+    @inject(TimeController) private timeController: TimeController,
     @inject(WeatherController)
     private WeatherController: WeatherController,
     @inject(ProfileController)
@@ -47,10 +47,10 @@ export class HearRoutes {
           this.locationController.handleTrigger,
         [HEAR[BotHearTrigger.SET_NOTIFICATION_TIME](t)]:
           this.timeController.handleTrigger,
-        [HEAR[BotHearTrigger.GET_WEATHER](t)]:
-          this.WeatherController.handleTrigger,
         [HEAR[BotHearTrigger.GET_PROFILE](t)]:
           this.profileController.handleTrigger,
+        [HEAR[BotHearTrigger.GET_WEATHER](t)]:
+          this.WeatherController.handleTrigger,
         [HEAR[BotHearTrigger.LANGUAGE](t)]:
           this.languageController.handleTrigger,
         [HEAR[BotHearTrigger.SUBSCRIBE](t)]:

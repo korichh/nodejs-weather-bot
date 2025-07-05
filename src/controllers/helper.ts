@@ -1,12 +1,13 @@
-import { ERROR } from "../constants";
-import { MainKeyboard } from "../keyboards";
-import { UserService } from "../services";
-import { TelegrafContext, User } from "../types";
-import { getT } from "../utils";
 import { TFunction } from "i18next";
 import { inject, injectable } from "inversify";
 import { Markup } from "telegraf";
 import { ReplyKeyboardMarkup } from "telegraf/typings/core/types/typegram";
+
+import { ERROR } from "@/constants";
+import { MainKeyboard } from "@/keyboards";
+import { UserService } from "@/services";
+import { TelegrafContext, User } from "@/types";
+import { getT } from "@/utils";
 
 const { ERROR_MESSAGE, UNABLE_TO_OBTAIN_USER, USER_NOT_FOUND } = ERROR;
 

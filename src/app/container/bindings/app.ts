@@ -1,4 +1,5 @@
-import { App } from "../../classes";
 import { container } from "../instance";
+
+import { App } from "@/app/classes";
 
 container.bind(App).toSelf().inSingletonScope();

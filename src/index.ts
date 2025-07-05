@@ -1,7 +1,11 @@
-import { App, container } from "./app";
-import { ENV, SYSTEM } from "./constants";
-import { logger } from "./utils";
+import "dotenv/config";
 import "reflect-metadata";
+
+import "./app/setup";
+
+import { App, container } from "@/app";
+import { ENV, SYSTEM } from "@/constants";
+import { logger } from "@/utils";
 
 const { NODE_ENV } = ENV;
 const { APP_START, APP_STOP, APP_MESSAGE, APP_ERROR } = SYSTEM;
