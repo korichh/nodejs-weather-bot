@@ -1,13 +1,14 @@
 import { inject, injectable } from "inversify";
 import { ExtraReplyMessage } from "telegraf/typings/telegram-types";
 
-import { MESSAGE } from "../constants";
-import { WeatherService } from "../services";
-import { TelegrafContext, TelegrafNext } from "../types";
-import { parseForecast } from "../utils";
 import { HelperController } from "./helper";
 
-const { NO_LOCATION } = MESSAGE;
+import { MESSAGE } from "@/constants";
+import { WeatherService } from "@/services";
+import { TelegrafContext, TelegrafNext } from "@/types";
+import { parseForecast } from "@/utils";
+
+const { MISSING_LOCATION } = MESSAGE;
 
 @injectable()
 export class WeatherController {
@@ -21,14 +22,19 @@ export class WeatherController {
     next: TelegrafNext
   ): Promise<void> => {
     try {
-      let { t, user } = await this.helperController.initContext(ctx);
+      let { t, user, keyboard } =
+        await this.helperController.initContext(ctx);
 
       if (!user.location) {
-        await ctx.sendMessage(NO_LOCATION(t));
+        await ctx.reply(MISSING_LOCATION(t), keyboard);
         return;
       }
 
-      const extra: ExtraReplyMessage = { parse_mode: "Markdown" };
+      const extra: ExtraReplyMessage = {
+        parse_mode: "Markdown",
+        reply_markup: keyboard.reply_markup,
+      };
+
       const forecast = await this.weatherService.getForecast(
         {
           lat: user.location.lat,
@@ -45,10 +51,10 @@ export class WeatherController {
         user.languageCode
       );
 
-      await ctx.sendMessage(cityMeta, extra);
+      await ctx.reply(cityMeta, extra);
 
       for (const dayMeta of dayList) {
-        await ctx.sendMessage(dayMeta, extra);
+        await ctx.reply(dayMeta, extra);
       }
 
       await next();
