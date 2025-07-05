@@ -22,14 +22,19 @@ export class WeatherController {
     next: TelegrafNext
   ): Promise<void> => {
     try {
-      let { t, user } = await this.helperController.initContext(ctx);
+      let { t, user, keyboard } =
+        await this.helperController.initContext(ctx);
 
       if (!user.location) {
-        await ctx.reply(MISSING_LOCATION(t));
+        await ctx.reply(MISSING_LOCATION(t), keyboard);
         return;
       }
 
-      const extra: ExtraReplyMessage = { parse_mode: "Markdown" };
+      const extra: ExtraReplyMessage = {
+        parse_mode: "Markdown",
+        reply_markup: keyboard.reply_markup,
+      };
+
       const forecast = await this.weatherService.getForecast(
         {
           lat: user.location.lat,
