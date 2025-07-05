@@ -20,8 +20,8 @@ export class MainKeyboard {
 
     keyboard.push([
       HEAR[BotHearTrigger.GET_PROFILE](t),
-      HEAR[BotHearTrigger.GET_WEATHER](t)
-  ]);
+      HEAR[BotHearTrigger.GET_WEATHER](t),
+    ]);
 
     keyboard.push([
       HEAR[BotHearTrigger.LANGUAGE](t),
