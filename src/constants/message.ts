@@ -8,6 +8,8 @@ export const MESSAGE = {
 
   NO: (t: TFunction): string => t("message.no"),
 
+  NO_LOCATION: (t: TFunction): string => t("message.no_location"),
+
   MISSING_LOCATION_TIME: (t: TFunction): string =>
     t("message.missing_location_time"),
 

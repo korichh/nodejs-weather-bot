@@ -18,7 +18,10 @@ export class MainKeyboard {
       HEAR[BotHearTrigger.SET_NOTIFICATION_TIME](t),
     ]);
 
-    keyboard.push([HEAR[BotHearTrigger.GET_PROFILE](t)]);
+    keyboard.push([
+      HEAR[BotHearTrigger.GET_PROFILE](t),
+      HEAR[BotHearTrigger.GET_WEATHER](t)
+  ]);
 
     keyboard.push([
       HEAR[BotHearTrigger.LANGUAGE](t),
