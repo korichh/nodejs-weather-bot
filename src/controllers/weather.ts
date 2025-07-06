@@ -26,8 +26,7 @@ export class WeatherController {
         await this.helperController.initContext(ctx);
 
       if (!user.location) {
-        await ctx.reply(MISSING_LOCATION(t), keyboard);
-        return;
+        throw new Error(MISSING_LOCATION(t));
       }
 
       const extra: ExtraReplyMessage = {

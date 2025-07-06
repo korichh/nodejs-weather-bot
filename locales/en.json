@@ -1,6 +1,6 @@
 {
   "error": {
-    "error_message": "❌ Error: {{message}}",
+    "error_message": "❌ {{message}}",
 
     "unable_to_obtain_user": "Unable to obtain user information.",
 
