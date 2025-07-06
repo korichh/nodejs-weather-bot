@@ -3,7 +3,11 @@ import { Telegraf } from "telegraf";
 
 import { ForecastJob } from "@/jobs";
 import { Database } from "@/lib";
-import { useErrorHandler, useSession } from "@/middlewares";
+import {
+  rateLimitMiddleware,
+  useErrorHandler,
+  useSession,
+} from "@/middlewares";
 import { UserModel } from "@/models";
 import { CommandRoutes, HearRoutes, MessageRoutes } from "@/routes";
 import { TelegrafContext } from "@/types";
@@ -35,6 +39,7 @@ export class App {
 
   private setupMiddlewares = async (): Promise<void> => {
     this.bot.use(useSession);
+    this.bot.use(rateLimitMiddleware);
   };
 
   private setupRoutes = async (): Promise<void> => {

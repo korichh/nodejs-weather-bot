@@ -24,7 +24,8 @@ export class HearRoutes {
     private bot: Telegraf<TelegrafContext>,
     @inject(LocationController)
     private locationController: LocationController,
-    @inject(TimeController) private timeController: TimeController,
+    @inject(TimeController)
+    private timeController: TimeController,
     @inject(WeatherController)
     private WeatherController: WeatherController,
     @inject(ProfileController)
