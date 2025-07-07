@@ -71,4 +71,6 @@ export const MESSAGE = {
 
   SUCCESS_LANGUAGE: (t: TFunction): string =>
     t("message.success_language"),
+
+  TOO_OFTEN: (t: TFunction): string => t("message.too_often"),
 };

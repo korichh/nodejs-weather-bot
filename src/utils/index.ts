@@ -5,3 +5,4 @@ export * from "./text";
 export * from "./user";
 export * from "./validation";
 export * from "./weather";
+export * from "./rateLimiter";
